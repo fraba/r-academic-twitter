@@ -28,6 +28,49 @@ knitr::opts_chunk$set(echo = TRUE,
 
 This book offers some practical understanding on how to access the Twitter API with R. It assumes an Academic Research access but also some familiarity with R. If you are a student or an academic you can get more information on how to apply [here](https://developer.twitter.com/en/products/twitter-api/academic-research/application-info). The book is based on the official Twitter documentation that you can access [here](https://developer.twitter.com/en/docs/twitter-api). 
 
+### Twitter relationships
+
+In collecting Twitter data using the API, there are a number of entry points. Each node in the diagram indicate a possible entry point with arrows indicating the type of API requests necessary to crawl the graph. 
+
+```{r echo = FALSE, results = 'show'}
+
+library(DiagrammeR)
+library(data.table)
+
+niv <- 
+  c("User A", "User B", "Tweet", "List", "query")
+from <- 
+  c("User A", "User B", "query", "query", "Tweet", "User B", "List", "User B")
+to <- 
+  c("User B", "User A", "Tweet", "Tweet", "User A", "Tweet", "User A", "List")
+
+temp <- 
+  data.table::data.table(from = factor(from, levels=niv),
+                         to = factor(to, levels=niv))
+
+nodes <-   
+  DiagrammeR::create_node_df( n=length(niv), label=niv,  width=0.3) 
+
+edges <- 
+  DiagrammeR::create_edge_df(from = temp$from, 
+                             to = temp$to, 
+                             rel = "leading_to", 
+                             label = c("get friends", 
+                                       "get followers",
+                                       "search tweets",
+                                       "stream tweets",
+                                       "tweet lookup",
+                                       "user timeline",
+                                       "list members",
+                                       "list membership"))
+
+graph <- 
+  create_graph(nodes_df = nodes, edges_df = edges)
+
+render_graph(graph)
+
+```
+
 
 ## Author
 

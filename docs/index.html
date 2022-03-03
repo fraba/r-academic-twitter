@@ -53,6 +53,10 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/viz-1.8.2/viz.js"></script>
+<link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="libs/grViz-binding-1.0.8/grViz.js"></script>
 
 
 <style type="text/css">
@@ -139,7 +143,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About<span></span></a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#book"><i class="fa fa-check"></i><b>1.1</b> Book<span></span></a></li>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#book"><i class="fa fa-check"></i><b>1.1</b> Book<span></span></a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#twitter-relationships"><i class="fa fa-check"></i><b>1.1.1</b> Twitter relationships<span></span></a></li>
+</ul></li>
 <li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#author"><i class="fa fa-check"></i><b>1.2</b> Author<span></span></a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="first-steps.html"><a href="first-steps.html"><i class="fa fa-check"></i><b>2</b> First steps<span></span></a>
@@ -188,6 +195,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="book" class="section level2 hasAnchor" number="1.1">
 <h2><span class="header-section-number">1.1</span> Book<a href="index.html#book" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>This book offers some practical understanding on how to access the Twitter API with R. It assumes an Academic Research access but also some familiarity with R. If you are a student or an academic you can get more information on how to apply <a href="https://developer.twitter.com/en/products/twitter-api/academic-research/application-info">here</a>. The book is based on the official Twitter documentation that you can access <a href="https://developer.twitter.com/en/docs/twitter-api">here</a>.</p>
+<div id="twitter-relationships" class="section level3 hasAnchor" number="1.1.1">
+<h3><span class="header-section-number">1.1.1</span> Twitter relationships<a href="index.html#twitter-relationships" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In collecting Twitter data using the API, there are a number of entry points. Each node in the diagram indicate a possible entry point with arrows indicating the type of API requests necessary to crawl the graph.</p>
+<div id="htmlwidget-fb66f513b2106476c7d4" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-fb66f513b2106476c7d4">{"x":{"diagram":"digraph {\n\ngraph [layout = \"neato\",\n       outputorder = \"edgesfirst\",\n       bgcolor = \"white\"]\n\nnode [fontname = \"Helvetica\",\n      fontsize = \"10\",\n      shape = \"circle\",\n      fixedsize = \"true\",\n      width = \"0.5\",\n      style = \"filled\",\n      fillcolor = \"aliceblue\",\n      color = \"gray70\",\n      fontcolor = \"gray50\"]\n\nedge [fontname = \"Helvetica\",\n     fontsize = \"8\",\n     len = \"1.5\",\n     color = \"gray80\",\n     arrowsize = \"0.5\"]\n\n  \"1\" [label = \"User A\", width = \"0.3\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"2\" [label = \"User B\", width = \"0.3\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"3\" [label = \"Tweet\", width = \"0.3\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"4\" [label = \"List\", width = \"0.3\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"5\" [label = \"query\", width = \"0.3\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n\"1\"->\"2\" [label = \"get friends\"] \n\"2\"->\"1\" [label = \"get followers\"] \n\"5\"->\"3\" [label = \"search tweets\"] \n\"5\"->\"3\" [label = \"stream tweets\"] \n\"3\"->\"1\" [label = \"tweet lookup\"] \n\"2\"->\"3\" [label = \"user timeline\"] \n\"4\"->\"1\" [label = \"list members\"] \n\"2\"->\"4\" [label = \"list membership\"] \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
 </div>
 <div id="author" class="section level2 hasAnchor" number="1.2">
 <h2><span class="header-section-number">1.2</span> Author<a href="index.html#author" class="anchor-section" aria-label="Anchor link to header"></a></h2>
