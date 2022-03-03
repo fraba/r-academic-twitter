@@ -1,8 +1,15 @@
 ---
-title: "Twitter API: Academic Research access with R"
+title: "Twitter API Academic Research access with R"
 author: "Francesco Bailo"
 date: '`r Sys.Date()`'
-output: html_document
+site: bookdown::bookdown_site
+documentclass: book
+url: your book url like https://fraba.github.io/r-academic-twitter/
+# cover-image: path to the social sharing image like images/cover.jpg
+description: |
+  This book offers some practical understanding on how to access the Twitter API with R.
+link-citations: yes
+github-repo: fraba/r-academic-twitter
 ---
 
 
@@ -24,3 +31,10 @@ This book offers some practical understanding on how to access the Twitter API w
 ## Author
 
 Francesco Bailo is Lecturer of Digital and Social Media at the University of Technology Sydney, Australia. His research focuses on the use of digital and social media in politics. He obtained his PhD in 2017 at the University of Sydney, Australia. 
+
+```{r echo = FALSE, results = "show", out.width="150px"}
+
+knitr::include_graphics("https://profiles.uts.edu.au/Francesco.Bailo/photo")
+
+```
+
