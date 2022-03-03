@@ -137,7 +137,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Twitter API: Academic Research access with R</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About<span></span></a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About<span></span></a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#book"><i class="fa fa-check"></i><b>1.1</b> Book<span></span></a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#author"><i class="fa fa-check"></i><b>1.2</b> Author<span></span></a></li>
+</ul></li>
 <li class="chapter" data-level="2" data-path="first-steps.html"><a href="first-steps.html"><i class="fa fa-check"></i><b>2</b> First steps<span></span></a>
 <ul>
 <li class="chapter" data-level="2.1" data-path="first-steps.html"><a href="first-steps.html#packages"><i class="fa fa-check"></i><b>2.1</b> Packages<span></span></a></li>
@@ -219,7 +223,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>By printing <code>res</code> we see details about the HTTP response (but not yet the API response or the content returned from the API).</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="first-steps.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(res)</span></code></pre></div>
 <pre><code>## Response [https://api.twitter.com/2/tweets/counts/recent?query=from%3ATwitterDev&amp;granularity=day]
-##   Date: 2022-03-03 02:59
+##   Date: 2022-03-03 03:26
 ##   Status: 200
 ##   Content-Type: application/json; charset=utf-8
 ##   Size: 729 B</code></pre>
@@ -240,14 +244,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="first-steps.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(obj.r)</span></code></pre></div>
 <pre><code>## $data
 ##                        end                    start tweet_count
-## 1 2022-02-25T00:00:00.000Z 2022-02-24T02:59:32.000Z           0
+## 1 2022-02-25T00:00:00.000Z 2022-02-24T03:26:15.000Z           0
 ## 2 2022-02-26T00:00:00.000Z 2022-02-25T00:00:00.000Z           0
 ## 3 2022-02-27T00:00:00.000Z 2022-02-26T00:00:00.000Z           0
 ## 4 2022-02-28T00:00:00.000Z 2022-02-27T00:00:00.000Z           0
 ## 5 2022-03-01T00:00:00.000Z 2022-02-28T00:00:00.000Z           1
 ## 6 2022-03-02T00:00:00.000Z 2022-03-01T00:00:00.000Z           0
 ## 7 2022-03-03T00:00:00.000Z 2022-03-02T00:00:00.000Z           0
-## 8 2022-03-03T02:59:32.000Z 2022-03-03T00:00:00.000Z           0
+## 8 2022-03-03T03:26:15.000Z 2022-03-03T00:00:00.000Z           0
 ## 
 ## $meta
 ## $meta$total_tweet_count
@@ -293,7 +297,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-first-steps.Rmd",
+"link": "https://github.com/fraba/r-academic-twitter01-first-steps.Rmd",
 "text": "Edit"
 },
 "history": {
