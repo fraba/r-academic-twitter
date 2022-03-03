@@ -240,12 +240,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>By printing <code>res</code> we see details about the HTTP response (but not yet the API response or the content returned from the API).</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="first-steps.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(res)</span></code></pre></div>
 <pre><code>## Response [https://api.twitter.com/2/tweets/counts/recent?query=from%3ATwitterDev&amp;granularity=day]
-##   Date: 2022-03-03 04:50
-##   Status: 401
-##   Content-Type: application/problem+json
-##   Size: 99 B
-## &lt;BINARY BODY&gt;</code></pre>
-<pre><code>## NULL</code></pre>
+##   Date: 2022-03-03 04:54
+##   Status: 200
+##   Content-Type: application/json; charset=utf-8
+##   Size: 729 B</code></pre>
 <p>If our request was authorised we should get</p>
 <blockquote>
 <p>Status: 200</p>
@@ -255,23 +253,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Status: 401</p>
 </blockquote>
 <p>Assuming, that we got an OK from the HTTP layer, then we can access the content we receive as a response from the API layer. We access it with the function <code>httr::content()</code>.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="first-steps.html#cb11-1" aria-hidden="true" tabindex="-1"></a>obj.json <span class="ot">&lt;-</span> </span>
-<span id="cb11-2"><a href="first-steps.html#cb11-2" aria-hidden="true" tabindex="-1"></a>  httr<span class="sc">::</span><span class="fu">content</span>(res, <span class="at">as =</span> <span class="st">&quot;text&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="first-steps.html#cb10-1" aria-hidden="true" tabindex="-1"></a>obj.json <span class="ot">&lt;-</span> </span>
+<span id="cb10-2"><a href="first-steps.html#cb10-2" aria-hidden="true" tabindex="-1"></a>  httr<span class="sc">::</span><span class="fu">content</span>(res, <span class="at">as =</span> <span class="st">&quot;text&quot;</span>)</span></code></pre></div>
 <p>Now by default the Twitter API responses are in <a href="https://en.wikipedia.org/wiki/JSON">JSON format</a>. We can use the jsonlite package to translate the JSON-formatted string into an R object with</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="first-steps.html#cb12-1" aria-hidden="true" tabindex="-1"></a>obj.r <span class="ot">&lt;-</span> </span>
-<span id="cb12-2"><a href="first-steps.html#cb12-2" aria-hidden="true" tabindex="-1"></a>  jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>(obj.json)</span></code></pre></div>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="first-steps.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(obj.r)</span></code></pre></div>
-<pre><code>## $title
-## [1] &quot;Unauthorized&quot;
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="first-steps.html#cb11-1" aria-hidden="true" tabindex="-1"></a>obj.r <span class="ot">&lt;-</span> </span>
+<span id="cb11-2"><a href="first-steps.html#cb11-2" aria-hidden="true" tabindex="-1"></a>  jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>(obj.json)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="first-steps.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(obj.r)</span></code></pre></div>
+<pre><code>## $data
+##                        end                    start tweet_count
+## 1 2022-02-25T00:00:00.000Z 2022-02-24T04:54:18.000Z           0
+## 2 2022-02-26T00:00:00.000Z 2022-02-25T00:00:00.000Z           0
+## 3 2022-02-27T00:00:00.000Z 2022-02-26T00:00:00.000Z           0
+## 4 2022-02-28T00:00:00.000Z 2022-02-27T00:00:00.000Z           0
+## 5 2022-03-01T00:00:00.000Z 2022-02-28T00:00:00.000Z           1
+## 6 2022-03-02T00:00:00.000Z 2022-03-01T00:00:00.000Z           0
+## 7 2022-03-03T00:00:00.000Z 2022-03-02T00:00:00.000Z           0
+## 8 2022-03-03T04:54:18.000Z 2022-03-03T00:00:00.000Z           0
 ## 
-## $type
-## [1] &quot;about:blank&quot;
-## 
-## $status
-## [1] 401
-## 
-## $detail
-## [1] &quot;Unauthorized&quot;</code></pre>
+## $meta
+## $meta$total_tweet_count
+## [1] 1</code></pre>
 <p>And this is information on the number of tweets posted by <span class="citation">@TwitterDev</span> in the days before our request.</p>
 
 </div>
