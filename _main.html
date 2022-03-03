@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>First steps</title>
+  <meta name="description" content="First steps" />
+  <meta name="generator" content="bookdown #bookdown:version# and GitBook 2.6.7" />
+
+  <meta property="og:title" content="First steps" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="First steps" />
+  
+  
+  
+
+<meta name="author" content="Francesco Bailo" />
+
+
+<meta name="date" content="2022-03-03" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<!--bookdown:link_prev-->
+<!--bookdown:link_next-->
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+<!--bookdown:title:start-->
+<div id="header">
+<h1 class="title">First steps</h1>
+<p class="author"><em>Francesco Bailo</em></p>
+<p class="date"><em>2022-03-03</em></p>
+</div>
+<!--bookdown:title:end-->
+
+<!--bookdown:toc:start-->
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+<!--bookdown:toc2:start-->
+<ul>
+<li><a href="#about"><span class="toc-section-number">1</span> About<span></span></a>
+<ul>
+<li><a href="#book"><span class="toc-section-number">1.1</span> Book<span></span></a></li>
+<li><a href="#author"><span class="toc-section-number">1.2</span> Author<span></span></a></li>
+</ul></li>
+<li><a href="#first-steps"><span class="toc-section-number">2</span> First steps<span></span></a>
+<ul>
+<li><a href="#packages"><span class="toc-section-number">2.1</span> Packages<span></span></a></li>
+<li><a href="#credentials"><span class="toc-section-number">2.2</span> Credentials<span></span></a></li>
+<li><a href="#interrogating-the-twitter-api"><span class="toc-section-number">2.3</span> Interrogating the Twitter API<span></span></a></li>
+</ul></li>
+</ul>
+<!--bookdown:toc2:end-->
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">First steps</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<!--bookdown:toc:end-->
+<!--bookdown:body:start-->
+<div id="about" class="section level1 hasAnchor" number="1">
+<h1 class="hasAnchor"><span class="header-section-number">1</span> About<a href="#about" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="book" class="section level2 hasAnchor" number="1.1">
+<h2 class="hasAnchor"><span class="header-section-number">1.1</span> Book<a href="#book" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>This book offers some practical understanding on how to access the Twitter API with R. It assumes an Academic Research access but also some familiarity with R. If you are a student or an academic you can get more information on how to apply <a href="https://developer.twitter.com/en/products/twitter-api/academic-research/application-info">here</a>.</p>
+</div>
+<div id="author" class="section level2 hasAnchor" number="1.2">
+<h2 class="hasAnchor"><span class="header-section-number">1.2</span> Author<a href="#author" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Francesco Bailo is Lecturer of Digital and Social Media at the University of Technology Sydney, Australia. His research focuses on the use of digital and social media in politics. He obtained his PhD in 2017 at the University of Sydney, Australia.</p>
+<!--chapter:end:index.Rmd-->
+</div>
+</div>
+<div id="first-steps" class="section level1 hasAnchor" number="2">
+<h1 class="hasAnchor"><span class="header-section-number">2</span> First steps<a href="#first-steps" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="packages" class="section level2 hasAnchor" number="2.1">
+<h2 class="hasAnchor"><span class="header-section-number">2.1</span> Packages<a href="#packages" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The R code relies on generalist packages to access the API and manipulate the response.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;httr&quot;</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;jsonlite&quot;</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;dplyr&quot;</span>)</span></code></pre></div>
+<p>If you don’t have these packages already install, you need to run</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;httr&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;jsonlite&quot;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;dplyr&quot;</span>)</span></code></pre></div>
+</div>
+<div id="credentials" class="section level2 hasAnchor" number="2.2">
+<h2 class="hasAnchor"><span class="header-section-number">2.2</span> Credentials<a href="#credentials" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let’s store our bearer token in an environment variable (let’s call it <code>BEARER_TOKEN</code>)</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="at">BEARER_TOKEN =</span> <span class="st">&quot;copy-your-bearer-token-here&quot;</span>)</span></code></pre></div>
+<p>We are then able to get the token back with</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.getenv</span>(<span class="st">&quot;BEARER_TOKEN&quot;</span>)</span></code></pre></div>
+<p>The idea is to run <code>Sys.setenv()</code> from our console <em>before</em> running our scripts (that is, every time!) so that our token is never added to a script file. Of course, if you don’t care you can just store it in a regular variable.</p>
+</div>
+<div id="interrogating-the-twitter-api" class="section level2 hasAnchor" number="2.3">
+<h2 class="hasAnchor"><span class="header-section-number">2.3</span> Interrogating the Twitter API<a href="#interrogating-the-twitter-api" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The Twitter API accept two methods to exchange information: POST and GET. Intuitively, with the POST method we send information to a server while with the GET method we retrieve information. With the Twitter API, the GET method is used more frequently. Still, we need to use the POST method to define our search rules before we GET the <a href="https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/introduction">Filtered stream</a>.</p>
+<p>This is how a GET request using the httr package looks like:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>httr<span class="sc">::</span><span class="fu">GET</span>(url,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>          httr<span class="sc">::</span><span class="fu">add_headers</span>(<span class="at">.headers =</span> headers),</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">query =</span> params)</span></code></pre></div>
+<p>The <code>url</code> is a simple character variable while <code>headers</code> and <code>params</code> are lists.</p>
+<p>But let’s send a GET request!</p>
+<p>We need first to set the URL, specify our request headers (these are not going to change, so you can place at the top of your document) and set the parameters fo the query.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;https://api.twitter.com/2/tweets/counts/recent&quot;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>headers <span class="ot">&lt;-</span> </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">`</span><span class="at">Authorization</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sprintf</span>(<span class="st">&#39;Bearer %s&#39;</span>, </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                              <span class="fu">Sys.getenv</span>(<span class="st">&quot;BEARER_TOKEN&quot;</span>)))</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">query =</span> <span class="st">&quot;from:TwitterDev&quot;</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">granularity =</span> <span class="st">&quot;day&quot;</span>)</span></code></pre></div>
+<p>What are we doing here?</p>
+<ol style="list-style-type: decimal">
+<li><p>With <code>url</code> we specify the endpoint we want to use for this API request. The Twitter API has several endpoints. Note that sometimes we need to include parameters here instead of passing them through the HTTP query.</p></li>
+<li><p><code>headers</code> is the first layer of information that we send over to the server. In this case it contains our token. If this is accepted - the status of the request is <code>200 OK</code> - then the API is ready to process our request. If the token is not accepted we get as status <code>401 Unauthorized</code>. Note that these <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status">error codes and messages</a> define the status of the HTTP request. The Twitter API has a different <a href="https://developer.twitter.com/en/support/twitter-api/error-troubleshooting">set of error codes</a>. In this sense, we can get a <code>200 OK</code> from the HTTP layer and still get an error (e.g. <code>429 Too Many Requests</code>) from the API layer (think in <a href="https://en.wikipedia.org/wiki/Protocol_stack">stacks</a>!).</p></li>
+<li><p>With <code>params</code> we define the queries with want to append to the URL. Functionally, you can imagine that the list of key-value pairs what we define in list object <code>params</code> are appended after the string we set with <code>url</code> and a <code>?</code> (for example, in <code>https://example.com/over/there?name=ferret</code> the query is defined by the key-value <code>name=ferret</code>).</p></li>
+</ol>
+<p>Now we can add these as attributes to the function <code>GET</code> and collect the response in <code>res</code>.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  httr<span class="sc">::</span><span class="fu">GET</span>(url,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>            httr<span class="sc">::</span><span class="fu">add_headers</span>(<span class="at">.headers =</span> headers),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">query =</span> params)</span></code></pre></div>
+<p>By printing <code>res</code> we see details about the HTTP response (but not yet the API response or the content returned from the API).</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(res)</span></code></pre></div>
+<pre><code>## Response [https://api.twitter.com/2/tweets/counts/recent?query=from%3ATwitterDev&amp;granularity=day]
+##   Date: 2022-03-03 03:25
+##   Status: 200
+##   Content-Type: application/json; charset=utf-8
+##   Size: 729 B</code></pre>
+<p>If our request was authorised we should get</p>
+<blockquote>
+<p>Status: 200</p>
+</blockquote>
+<p>if our request was not authorised (likely because your token was not correctly specified) we should instead get</p>
+<blockquote>
+<p>Status: 401</p>
+</blockquote>
+<p>Assuming, that we got an OK from the HTTP layer, then we can access the content we receive as a response from the API layer. We access it with the function <code>httr::content()</code>.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>obj.json <span class="ot">&lt;-</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  httr<span class="sc">::</span><span class="fu">content</span>(res, <span class="at">as =</span> <span class="st">&quot;text&quot;</span>)</span></code></pre></div>
+<p>Now by default the Twitter API responses are in <a href="https://en.wikipedia.org/wiki/JSON">JSON format</a>. We can use the jsonlite package to translate the JSON-formatted string into an R object with</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>obj.r <span class="ot">&lt;-</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>(obj.json)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(obj.r)</span></code></pre></div>
+<pre><code>## $data
+##                        end                    start tweet_count
+## 1 2022-02-25T00:00:00.000Z 2022-02-24T03:25:13.000Z           0
+## 2 2022-02-26T00:00:00.000Z 2022-02-25T00:00:00.000Z           0
+## 3 2022-02-27T00:00:00.000Z 2022-02-26T00:00:00.000Z           0
+## 4 2022-02-28T00:00:00.000Z 2022-02-27T00:00:00.000Z           0
+## 5 2022-03-01T00:00:00.000Z 2022-02-28T00:00:00.000Z           1
+## 6 2022-03-02T00:00:00.000Z 2022-03-01T00:00:00.000Z           0
+## 7 2022-03-03T00:00:00.000Z 2022-03-02T00:00:00.000Z           0
+## 8 2022-03-03T03:25:13.000Z 2022-03-03T00:00:00.000Z           0
+## 
+## $meta
+## $meta$total_tweet_count
+## [1] 1</code></pre>
+<p>And this is information on the number of tweets posted by <span class="citation">@TwitterDev</span> in the days before our request.</p>
+<!--chapter:end:01-first-steps.Rmd-->
+</div>
+</div>
+<!--bookdown:body:end-->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<!--bookdown:link_prev-->
+<!--bookdown:link_next-->
+    </div>
+  </div>
+<!--bookdown:config-->
+
+</body>
+
+</html>

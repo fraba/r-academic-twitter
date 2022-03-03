@@ -1,5 +1,5 @@
 ---
-title: "First steps"
+title: "Twitter API: Academic Research access with R"
 author: "Francesco Bailo"
 date: '`r Sys.Date()`'
 output: html_document
@@ -15,5 +15,12 @@ knitr::opts_chunk$set(echo = TRUE,
 
 ```
 
-
 # About
+
+## Book  
+
+This book offers some practical understanding on how to access the Twitter API with R. It assumes an Academic Research access but also some familiarity with R. If you are a student or an academic you can get more information on how to apply [here](https://developer.twitter.com/en/products/twitter-api/academic-research/application-info).
+
+## Author
+
+Francesco Bailo is Lecturer of Digital and Social Media at the University of Technology Sydney, Australia. His research focuses on the use of digital and social media in politics. He obtained his PhD in 2017 at the University of Sydney, Australia. 

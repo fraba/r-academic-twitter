@@ -6,7 +6,7 @@ bookdown::gitbook:
         <li><a href="./">Twitter API: Academic Research access with R</a></li>
       after: |
         <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
-    edit: https://github.com/USERNAME/REPO/edit/BRANCH/%s
+    edit: https://github.com/fraba/r-academic-twitter
     download: ["pdf", "epub"]
 bookdown::pdf_book:
   includes:

@@ -1,4 +1,6 @@
 about
+book
+author
 first-steps
 packages
 credentials
