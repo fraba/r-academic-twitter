@@ -465,7 +465,7 @@ and collect the response in <code>res</code>.</p>
 (but not yet the API response or the content returned from the API).</p>
 <pre class="r"><code>print(res)</code></pre>
 <pre><code>## Response [https://api.twitter.com/2/tweets/counts/recent?query=from%3ATwitterDev&amp;granularity=day]
-##   Date: 2022-03-03 02:21
+##   Date: 2022-03-03 02:23
 ##   Status: 200
 ##   Content-Type: application/json; charset=utf-8
 ##   Size: 729 B</code></pre>
@@ -491,14 +491,14 @@ object with</p>
 <pre class="r"><code>print(obj.r)</code></pre>
 <pre><code>## $data
 ##                        end                    start tweet_count
-## 1 2022-02-25T00:00:00.000Z 2022-02-24T02:21:10.000Z           0
+## 1 2022-02-25T00:00:00.000Z 2022-02-24T02:23:43.000Z           0
 ## 2 2022-02-26T00:00:00.000Z 2022-02-25T00:00:00.000Z           0
 ## 3 2022-02-27T00:00:00.000Z 2022-02-26T00:00:00.000Z           0
 ## 4 2022-02-28T00:00:00.000Z 2022-02-27T00:00:00.000Z           0
 ## 5 2022-03-01T00:00:00.000Z 2022-02-28T00:00:00.000Z           1
 ## 6 2022-03-02T00:00:00.000Z 2022-03-01T00:00:00.000Z           0
 ## 7 2022-03-03T00:00:00.000Z 2022-03-02T00:00:00.000Z           0
-## 8 2022-03-03T02:21:10.000Z 2022-03-03T00:00:00.000Z           0
+## 8 2022-03-03T02:23:43.000Z 2022-03-03T00:00:00.000Z           0
 ## 
 ## $meta
 ## $meta$total_tweet_count
