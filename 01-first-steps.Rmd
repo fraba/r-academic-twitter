@@ -36,7 +36,7 @@ Sys.setenv(BEARER_TOKEN = "copy-your-bearer-token-here")
 
 We are then able to get the token back with 
 
-```{r}
+```{r, eval = F}
 
 Sys.getenv("BEARER_TOKEN")
 
@@ -123,7 +123,22 @@ obj.json <-
 
 ```
 
-Now by default the Twitter API responses are in [JSON format](https://en.wikipedia.org/wiki/JSON). We can use the jsonlite package to translate the JSON-formatted string into an R object with
+Now by default the Twitter API responses are in [JSON format](https://en.wikipedia.org/wiki/JSON), which looks like this:
+
+```{r, include = F}
+
+Sys.sleep(2)
+
+```
+
+```{r results = 'show'}
+
+print(jsonlite::prettify(obj.json, indent = 4))
+
+```
+
+
+We can use the jsonlite package to translate the JSON-formatted string into an R object with
 
 ```{r}
 
