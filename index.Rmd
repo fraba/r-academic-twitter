@@ -26,7 +26,8 @@ knitr::opts_chunk$set(echo = TRUE,
 
 ## Book  
 
-This book offers some practical understanding on how to access the Twitter API with R. It assumes an Academic Research access but also some familiarity with R. If you are a student or an academic you can get more information on how to apply [here](https://developer.twitter.com/en/products/twitter-api/academic-research/application-info).
+This book offers some practical understanding on how to access the Twitter API with R. It assumes an Academic Research access but also some familiarity with R. If you are a student or an academic you can get more information on how to apply [here](https://developer.twitter.com/en/products/twitter-api/academic-research/application-info). The book is based on the official Twitter documentation that you can access [here](https://developer.twitter.com/en/docs/twitter-api). 
+
 
 ## Author
 

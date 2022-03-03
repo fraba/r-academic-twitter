@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Twitter API Academic Research access with R</title>
+  <title>Chapter 9 User friend | Twitter API Academic Research access with R</title>
   <meta name="description" content="This book offers some practical understanding on how to access the Twitter API with R." />
   <meta name="generator" content="bookdown 0.24.10 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Twitter API Academic Research access with R" />
+  <meta property="og:title" content="Chapter 9 User friend | Twitter API Academic Research access with R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="your book url like https://fraba.github.io/r-academic-twitter/" />
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="fraba/r-academic-twitter" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Twitter API Academic Research access with R" />
+  <meta name="twitter:title" content="Chapter 9 User friend | Twitter API Academic Research access with R" />
   
   <meta name="twitter:description" content="This book offers some practical understanding on how to access the Twitter API with R." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="first-steps.html"/>
+<link rel="prev" href="user-follows.html"/>
+<link rel="next" href="list-lookup.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -150,11 +150,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="data-management.html"><a href="data-management.html"><i class="fa fa-check"></i><b>3</b> Data management<span></span></a></li>
 <li class="chapter" data-level="4" data-path="search-tweets.html"><a href="search-tweets.html"><i class="fa fa-check"></i><b>4</b> Search tweets<span></span></a></li>
-<li class="chapter" data-level="5" data-path="filtered-stream.html"><a href="filtered-stream.html"><i class="fa fa-check"></i><b>5</b> Filtered stream<span></span></a></li>
+<li class="chapter" data-level="5" data-path="filtered-stream.html"><a href="filtered-stream.html"><i class="fa fa-check"></i><b>5</b> Filtered Stream<span></span></a></li>
 <li class="chapter" data-level="6" data-path="tweets-lookup.html"><a href="tweets-lookup.html"><i class="fa fa-check"></i><b>6</b> Tweets lookup<span></span></a></li>
 <li class="chapter" data-level="7" data-path="users-lookup.html"><a href="users-lookup.html"><i class="fa fa-check"></i><b>7</b> Users lookup<span></span></a></li>
 <li class="chapter" data-level="8" data-path="user-follows.html"><a href="user-follows.html"><i class="fa fa-check"></i><b>8</b> User follows<span></span></a></li>
-<li class="chapter" data-level="9" data-path="user-friends.html"><a href="user-friends.html"><i class="fa fa-check"></i><b>9</b> User friends<span></span></a></li>
+<li class="chapter" data-level="9" data-path="user-friend.html"><a href="user-friend.html"><i class="fa fa-check"></i><b>9</b> User friend<span></span></a></li>
 <li class="chapter" data-level="10" data-path="list-lookup.html"><a href="list-lookup.html"><i class="fa fa-check"></i><b>10</b> List lookup<span></span></a></li>
 <li class="chapter" data-level="11" data-path="list-members.html"><a href="list-members.html"><i class="fa fa-check"></i><b>11</b> List members<span></span></a></li>
 <li class="chapter" data-level="12" data-path="list-memberships.html"><a href="list-memberships.html"><i class="fa fa-check"></i><b>12</b> List memberships<span></span></a></li>
@@ -178,31 +178,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Twitter API Academic Research access with R</h1>
-<p class="author"><em>Francesco Bailo</em></p>
-<p class="date"><em>2022-03-03</em></p>
-</div>
-<div id="about" class="section level1 hasAnchor" number="1">
-<h1><span class="header-section-number">Chapter 1</span> About<a href="index.html#about" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="book" class="section level2 hasAnchor" number="1.1">
-<h2><span class="header-section-number">1.1</span> Book<a href="index.html#book" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>This book offers some practical understanding on how to access the Twitter API with R. It assumes an Academic Research access but also some familiarity with R. If you are a student or an academic you can get more information on how to apply <a href="https://developer.twitter.com/en/products/twitter-api/academic-research/application-info">here</a>. The book is based on the official Twitter documentation that you can access <a href="https://developer.twitter.com/en/docs/twitter-api">here</a>.</p>
-</div>
-<div id="author" class="section level2 hasAnchor" number="1.2">
-<h2><span class="header-section-number">1.2</span> Author<a href="index.html#author" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Francesco Bailo is Lecturer of Digital and Social Media at the University of Technology Sydney, Australia. His research focuses on the use of digital and social media in politics. He obtained his PhD in 2017 at the University of Sydney, Australia.</p>
-<p><img src="https://profiles.uts.edu.au/Francesco.Bailo/photo" width="150px" /></p>
+<div id="user-friend" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">Chapter 9</span> User friend<a href="user-friend.html#user-friend" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 
-</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="first-steps.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="user-follows.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="list-lookup.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -233,7 +219,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/fraba/r-academic-twitterindex.Rmd",
+"link": "https://github.com/fraba/r-academic-twitter08-user-friends.Rmd",
 "text": "Edit"
 },
 "history": {

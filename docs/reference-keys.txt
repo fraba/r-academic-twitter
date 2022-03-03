@@ -5,3 +5,13 @@ first-steps
 packages
 credentials
 interrogating-the-twitter-api
+data-management
+search-tweets
+filtered-stream
+tweets-lookup
+users-lookup
+user-follows
+user-friends
+list-lookup
+list-members
+list-memberships
