@@ -1,1 +1,80 @@
 # Data management
+
+Once we got access to the Twitter API we must start planning about data management. The Twitter API can potentially return a huge amount of data (the current limits for Academic access are set to 10,000,000 tweets a month). What do we do with it? Where do we store it but also should we store it? 
+
+## JSON
+
+The default format for data loads from the Twitter API is JSON. A JSON (JavaScript Object Notation) file is a plain text file - so you can open it with any text editor. Information is structured through nesting like HTML or XML. JSON can't be naturally manipulated in R. Access and analysis in R involves reading the text in but also transforming it into R vector *types* (e.g. `logical`, `integer`, `double`, `character`) and *structures* (e.g. atomic vector, `data.frame`, `matrix`, `list`) - which is not painless!  
+
+
+### Read your JSON files: Tweets
+
+```{r}
+
+json_data_dir <- 
+  "json_data"
+
+if(!dir.exists(json_data_dir)) {
+  dir.create(json_data_dir)
+}
+
+files <- 
+  list.files(json_data_dir)
+
+tweet_data.df <- 
+  data.frame()
+
+for(file in files) {
+  
+  print(sprintf("File missing: %s", 
+                length(files) - which(file %in% files)))
+  
+  obj.r <- 
+    jsonlite::read_json(sprintf("%s/%s", json_data_dir, file))
+  
+  for (i in 1:length(obj.r$data)) {
+    
+    this_tweet.df <- 
+      data.frame(id = 
+                   obj.r$data[[i]]$id[[1]][[1]],
+                 author_id = 
+                   obj.r$data[[i]]$author_id[[1]][[1]],
+                 created_at = 
+                   obj.r$data[[i]]$created_at[[1]][[1]],
+                 lang = 
+                   obj.r$data[[i]]$lang[[1]][[1]],
+                 reply_settings = 
+                   obj.r$data[[i]]$reply_settings[[1]][[1]],
+                 source  = 
+                   obj.r$data[[i]]$source[[1]][[1]],
+                 possibly_sensitive = 
+                   obj.r$data[[i]]$possibly_sensitive[[1]][[1]],
+                 conversation_id = 
+                   obj.r$data[[i]]$conversation_id[[1]][[1]],
+                 text = 
+                   obj.r$data[[i]]$text[[1]][[1]])
+
+    these_metrics <- 
+      as.data.frame(obj.r$data[[i]]$public_metrics)
+    
+    colnames(these_metrics) <- 
+      names(obj.r$data[[i]]$public_metrics)
+    
+    this_tweet.df <- 
+      this_tweet.df %>%
+      dplyr::bind_cols(these_metrics)
+    
+    tweet_data.df <- 
+      tweet_data.df %>%
+      dplyr::bind_rows(this_tweet.df)
+
+  }
+  
+}
+
+```
+
+
+## Storage, analysis and acccess
+
+## Data ownership and ethics

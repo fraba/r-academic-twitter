@@ -1,1 +1,138 @@
 # Search tweets
+
+Let's first specify where we plan to store our json data. Notably, we also take care of programmatically create the directory if this doesn't exist (the `!` in front of `dir.exists` is a logical negation (i.e. `NOT`)).
+
+```{r eval = F}
+
+json_data_dir <- 
+  "json_data"
+
+if(!dir.exists(json_data_dir)) {
+  dir.create(json_data_dir)
+}
+
+```
+
+
+## Tweets from a given account
+
+
+```{r eval = F}
+
+url <- 
+  "https://api.twitter.com/2/tweets/search/all"
+
+headers <- 
+  c(`Authorization` = sprintf('Bearer %s', 
+                              Sys.getenv("BEARER_TOKEN")))
+
+params <- 
+  list(query = "from:matteosalvinimi",
+       start_time = "2011-03-01T00:00:00Z", # 2011
+       tweet.fields = "attachments,author_id,context_annotations,conversation_id,created_at,entities,geo,id,in_reply_to_user_id,lang,public_metrics,possibly_sensitive,referenced_tweets,reply_settings,source,text,withheld",
+       expansions = "attachments.poll_ids,attachments.media_keys,author_id,entities.mentions.username,geo.place_id,in_reply_to_user_id,referenced_tweets.id,referenced_tweets.id.author_id",
+       user.fields = "created_at,description,entities,id,location,name,pinned_tweet_id,profile_image_url,protected,public_metrics,url,username,verified,withheld", 
+       poll.fields = "duration_minutes,end_datetime,id,options,voting_status",
+       place.fields = "contained_within,country,country_code,full_name,geo,id,name,place_type",
+       media.fields = "duration_ms,height,media_key,preview_image_url,type,url,width,public_metrics,alt_text",
+       max_results = 100)
+
+```
+
+If we don't set an `end_time`, this is going to be default to now -30 seconds.
+
+```{r eval = F}
+
+res <- 
+  httr::GET(url,
+            httr::add_headers(.headers = headers),
+            query = params)
+
+```
+
+
+```{r eval = F}
+
+obj.r <- 
+  httr::content(res, as = "text") %>%
+  jsonlite::fromJSON()
+
+jsonlite::write_json(httr::content(res, as = "parsed"), 
+                     path = sprintf("%s/%s_%s.json",
+                                    json_data_dir,
+                                    obj.r$meta$oldest_id, 
+                                    obj.r$meta$newest_id))
+
+
+
+```
+
+Do we have additional pages? 
+
+```{r eval = F}
+
+if (!is.null(obj.r$meta$next_token)) {
+  
+  while(TRUE) {
+    
+    params[['pagination_token']] <-
+      obj.r$meta$next_token
+    
+    print(sprintf("Next token: %s...", obj.r$meta$next_token))
+    
+    res <- 
+      httr::GET(url,
+                httr::add_headers(.headers = headers),
+                query = params)
+    
+    obj.r <- 
+      httr::content(res, as = "text") %>%
+      jsonlite::fromJSON()
+    
+    if (!is.null(obj.r$status) && obj.r$status == 429) {
+      
+      while(TRUE) {
+        
+        print(obj.r$title)
+        
+        Sys.sleep(60)
+        
+        res <- 
+          httr::GET(url,
+                    httr::add_headers(.headers = headers),
+                    query = params)
+        
+        obj.r <- 
+          httr::content(res, as = "text") %>%
+          jsonlite::fromJSON()
+        
+        if (is.null(obj.r$status)) {
+          
+          break
+          
+        } 
+        
+      }
+      
+    }
+    
+    jsonlite::write_json(httr::content(res, as = "parsed"), 
+                         path = sprintf("%s/%s_%s.json",
+                                        json_data_dir,
+                                        obj.r$meta$oldest_id, 
+                                        obj.r$meta$newest_id))
+    
+    
+    if (is.null(obj.r$meta$next_token)) {
+      
+      break
+      
+    }
+    
+  }
+  
+}
+
+
+```
+

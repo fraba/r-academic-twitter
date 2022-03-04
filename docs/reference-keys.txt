@@ -7,7 +7,12 @@ packages
 credentials
 interrogating-the-twitter-api
 data-management
+json
+read-your-json-files-tweets
+storage-analysis-and-acccess
+data-ownership-and-ethics
 search-tweets
+tweets-from-a-given-account
 filtered-stream
 tweets-lookup
 users-lookup
