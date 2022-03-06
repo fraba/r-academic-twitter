@@ -10,7 +10,7 @@
 
   <meta property="og:title" content="Twitter API Academic Research access with R" />
   <meta property="og:type" content="book" />
-  <meta property="og:url" content="your book url like https://fraba.github.io/r-academic-twitter/" />
+  
   
   <meta property="og:description" content="This book offers some practical understanding on how to access the Twitter API with R." />
   <meta name="github-repo" content="fraba/r-academic-twitter" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Francesco Bailo" />
 
 
-<meta name="date" content="2022-03-04" />
+<meta name="date" content="2022-03-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -124,6 +124,28 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -199,18 +221,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="header">
 <h1 class="title">Twitter API Academic Research access with R</h1>
 <p class="author"><em>Francesco Bailo</em></p>
-<p class="date"><em>2022-03-04</em></p>
+<p class="date"><em>2022-03-07</em></p>
 </div>
 <div id="about" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">Chapter 1</span> About<a href="index.html#about" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="book" class="section level2 hasAnchor" number="1.1">
 <h2><span class="header-section-number">1.1</span> Book<a href="index.html#book" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>This book offers some practical understanding on how to access the Twitter API with R. It assumes an Academic Research access but also some familiarity with R. If you are a student or an academic you can get more information on how to apply <a href="https://developer.twitter.com/en/products/twitter-api/academic-research/application-info">here</a>. The book is based on the official Twitter documentation that you can access <a href="https://developer.twitter.com/en/docs/twitter-api">here</a>.</p>
+<p>This book offers some practical understanding on how to access the Twitter API with R. It assumes an Academic Research access but also some familiarity with R. If you are a student or an academic you can get more information on how to apply <a href="https://developer.twitter.com/en/products/twitter-api/academic-research/application-info">here</a>. The book is based on the official Twitter documentation that you can access <a href="https://developer.twitter.com/en/docs/twitter-api">here</a>. The code used in this book doesn’t rely on any ad-hoc package to access the Twitter API. This probably requries some more work on the user side but it also allows for more flexibility in defining and setting API queries and in responding to API changes. The code used in this book relies on three generalist packages</p>
+<ol style="list-style-type: decimal">
+<li><p>The <a href="https://cran.r-project.org/web/packages/httr/index.html">httr</a> package <span class="citation">(<a href="#ref-R-httr" role="doc-biblioref">Wickham 2020</a>)</span> to deal with HTTP requests;</p></li>
+<li><p>The <a href="https://cran.r-project.org/web/packages/dplyr/">dplyr</a> package <span class="citation">(<a href="#ref-R-dplyr" role="doc-biblioref">Wickham et al. 2021</a>)</span> to manipulate data objects in R; and</p></li>
+<li><p>The <a href="https://cran.r-project.org/web/packages/jsonlite/">jsonlite</a> package <span class="citation">(<a href="#ref-R-jsonlite" role="doc-biblioref">Ooms 2022</a>)</span> to deal with JSON-formatted data objects.</p></li>
+</ol>
+<p>This book is very much a working in progress. For suggestions, comments or if you note a mistake, please create an issue <a href="https://github.com/fraba/r-academic-twitter/issues">here</a>.</p>
 <div id="twitter-relationships" class="section level3 hasAnchor" number="1.1.1">
 <h3><span class="header-section-number">1.1.1</span> Twitter relationships<a href="index.html#twitter-relationships" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>In collecting Twitter data using the API, there are a number of entry points. Each node in the diagram indicate a possible entry point with arrows indicating the type of API requests necessary to crawl the graph.</p>
-<div id="htmlwidget-d439fe9bac0407f992a4" style="width:672px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d439fe9bac0407f992a4">{"x":{"diagram":"digraph {\n\ngraph [layout = \"neato\",\n       outputorder = \"edgesfirst\",\n       bgcolor = \"white\"]\n\nnode [fontname = \"Helvetica\",\n      fontsize = \"10\",\n      shape = \"circle\",\n      fixedsize = \"true\",\n      width = \"0.5\",\n      style = \"filled\",\n      fillcolor = \"aliceblue\",\n      color = \"gray70\",\n      fontcolor = \"gray50\"]\n\nedge [fontname = \"Helvetica\",\n     fontsize = \"8\",\n     len = \"1.5\",\n     color = \"gray80\",\n     arrowsize = \"0.5\"]\n\n  \"1\" [label = \"User A\", width = \"0.3\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"2\" [label = \"User B\", width = \"0.3\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"3\" [label = \"Tweet\", width = \"0.3\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"4\" [label = \"List\", width = \"0.3\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"5\" [label = \"query\", width = \"0.3\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n\"1\"->\"2\" [label = \"get friends\"] \n\"2\"->\"1\" [label = \"get followers\"] \n\"5\"->\"3\" [label = \"search tweets\"] \n\"5\"->\"3\" [label = \"stream tweets\"] \n\"3\"->\"1\" [label = \"tweet lookup\"] \n\"2\"->\"3\" [label = \"user timeline\"] \n\"4\"->\"1\" [label = \"list members\"] \n\"2\"->\"4\" [label = \"list membership\"] \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-c84a93b7387ec68709f3" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c84a93b7387ec68709f3">{"x":{"diagram":"digraph {\n\ngraph [layout = \"neato\",\n       outputorder = \"edgesfirst\",\n       bgcolor = \"white\"]\n\nnode [fontname = \"Helvetica\",\n      fontsize = \"10\",\n      shape = \"circle\",\n      fixedsize = \"true\",\n      width = \"0.5\",\n      style = \"filled\",\n      fillcolor = \"aliceblue\",\n      color = \"gray70\",\n      fontcolor = \"gray50\"]\n\nedge [fontname = \"Helvetica\",\n     fontsize = \"8\",\n     len = \"1.5\",\n     color = \"gray80\",\n     arrowsize = \"0.5\"]\n\n  \"1\" [label = \"User A\", width = \"0.3\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"2\" [label = \"User B\", width = \"0.3\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"3\" [label = \"Tweet\", width = \"0.3\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"4\" [label = \"List\", width = \"0.3\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"5\" [label = \"query\", width = \"0.3\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n\"1\"->\"2\" [label = \"get friends\"] \n\"2\"->\"1\" [label = \"get followers\"] \n\"5\"->\"3\" [label = \"search tweets\"] \n\"5\"->\"3\" [label = \"stream tweets\"] \n\"3\"->\"1\" [label = \"tweet lookup\"] \n\"2\"->\"3\" [label = \"user timeline\"] \n\"4\"->\"1\" [label = \"list members\"] \n\"2\"->\"4\" [label = \"list membership\"] \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p>Of course there are many other entry points. A good place to see a complete list is the official <a href="https://developer.twitter.com/en/docs/twitter-api/migrate/twitter-api-endpoint-map">Twitter API endpoint map</a>.</p>
 </div>
 </div>
 <div id="author" class="section level2 hasAnchor" number="1.2">
@@ -218,6 +247,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Francesco Bailo is Lecturer of Digital and Social Media at the University of Technology Sydney, Australia. His research focuses on the use of digital and social media in politics. He obtained his PhD in 2017 at the University of Sydney, Australia.</p>
 <p><img src="https://profiles.uts.edu.au/Francesco.Bailo/photo" width="150px" /></p>
 
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-R-jsonlite" class="csl-entry">
+Ooms, Jeroen. 2022. <em>Jsonlite: A Simple and Robust JSON Parser and Generator for r</em>. <a href="https://CRAN.R-project.org/package=jsonlite">https://CRAN.R-project.org/package=jsonlite</a>.
+</div>
+<div id="ref-R-httr" class="csl-entry">
+Wickham, Hadley. 2020. <em>Httr: Tools for Working with URLs and HTTP</em>. <a href="https://CRAN.R-project.org/package=httr">https://CRAN.R-project.org/package=httr</a>.
+</div>
+<div id="ref-R-dplyr" class="csl-entry">
+Wickham, Hadley, Romain François, Lionel Henry, and Kirill Müller. 2021. <em>Dplyr: A Grammar of Data Manipulation</em>. <a href="https://CRAN.R-project.org/package=dplyr">https://CRAN.R-project.org/package=dplyr</a>.
 </div>
 </div>
             </section>
@@ -257,8 +298,8 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/fraba/r-academic-twitterindex.Rmd",
-"text": "Edit"
+"link": null,
+"text": null
 },
 "history": {
 "link": null,

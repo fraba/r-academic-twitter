@@ -1,5 +1,15 @@
-
 # First steps
+
+**Chapter progress bar**
+
+```{r echo = F, results = 'asis'}
+
+printProgressBar(.95)
+
+```
+
+
+
 
 ## Packages 
 
@@ -8,8 +18,9 @@ The R code relies on generalist packages to access the API and manipulate the re
 ```{r include = T}
 
 library("httr")
-library("jsonlite")
 library("dplyr")
+library("jsonlite")
+
 
 ```
 

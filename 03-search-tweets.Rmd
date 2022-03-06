@@ -1,5 +1,13 @@
 # Search tweets
 
+**Chapter progress bar**
+
+```{r echo = F, results = 'asis'}
+
+printProgressBar(.2)
+
+```
+
 Let's first specify where we plan to store our json data. Notably, we also take care of programmatically create the directory if this doesn't exist (the `!` in front of `dir.exists` is a logical negation (i.e. `NOT`)).
 
 ```{r eval = F}
@@ -28,7 +36,7 @@ headers <-
 
 params <- 
   list(query = "from:matteosalvinimi",
-       start_time = "2011-03-01T00:00:00Z", # 2011
+       start_time = "2022-03-01T00:00:00Z",
        tweet.fields = "attachments,author_id,context_annotations,conversation_id,created_at,entities,geo,id,in_reply_to_user_id,lang,public_metrics,possibly_sensitive,referenced_tweets,reply_settings,source,text,withheld",
        expansions = "attachments.poll_ids,attachments.media_keys,author_id,entities.mentions.username,geo.place_id,in_reply_to_user_id,referenced_tweets.id,referenced_tweets.id.author_id",
        user.fields = "created_at,description,entities,id,location,name,pinned_tweet_id,profile_image_url,protected,public_metrics,url,username,verified,withheld", 

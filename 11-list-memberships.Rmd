@@ -1,1 +1,9 @@
 # List memberships
+
+**Chapter progress bar**
+
+```{r echo = F, results = 'asis'}
+
+printProgressBar(.0)
+
+```

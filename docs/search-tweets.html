@@ -10,7 +10,7 @@
 
   <meta property="og:title" content="Chapter 4 Search tweets | Twitter API Academic Research access with R" />
   <meta property="og:type" content="book" />
-  <meta property="og:url" content="your book url like https://fraba.github.io/r-academic-twitter/" />
+  
   
   <meta property="og:description" content="This book offers some practical understanding on how to access the Twitter API with R." />
   <meta name="github-repo" content="fraba/r-academic-twitter" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Francesco Bailo" />
 
 
-<meta name="date" content="2022-03-04" />
+<meta name="date" content="2022-03-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -124,6 +124,28 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -198,6 +220,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="search-tweets" class="section level1 hasAnchor" number="4">
 <h1><span class="header-section-number">Chapter 4</span> Search tweets<a href="search-tweets.html#search-tweets" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><strong>Chapter progress bar</strong></p>
+<p>██████░░░░░░░░░░░░░░░░░░░░░░░░ 20%</p>
 <p>Let’s first specify where we plan to store our json data. Notably, we also take care of programmatically create the directory if this doesn’t exist (the <code>!</code> in front of <code>dir.exists</code> is a logical negation (i.e. <code>NOT</code>)).</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="search-tweets.html#cb17-1" aria-hidden="true" tabindex="-1"></a>json_data_dir <span class="ot">&lt;-</span> </span>
 <span id="cb17-2"><a href="search-tweets.html#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;json_data&quot;</span></span>
@@ -216,7 +240,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb18-7"><a href="search-tweets.html#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-8"><a href="search-tweets.html#cb18-8" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> </span>
 <span id="cb18-9"><a href="search-tweets.html#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">query =</span> <span class="st">&quot;from:matteosalvinimi&quot;</span>,</span>
-<span id="cb18-10"><a href="search-tweets.html#cb18-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">start_time =</span> <span class="st">&quot;2011-03-01T00:00:00Z&quot;</span>, <span class="co"># 2011</span></span>
+<span id="cb18-10"><a href="search-tweets.html#cb18-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">start_time =</span> <span class="st">&quot;2022-03-01T00:00:00Z&quot;</span>,</span>
 <span id="cb18-11"><a href="search-tweets.html#cb18-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">tweet.fields =</span> <span class="st">&quot;attachments,author_id,context_annotations,conversation_id,created_at,entities,geo,id,in_reply_to_user_id,lang,public_metrics,possibly_sensitive,referenced_tweets,reply_settings,source,text,withheld&quot;</span>,</span>
 <span id="cb18-12"><a href="search-tweets.html#cb18-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">expansions =</span> <span class="st">&quot;attachments.poll_ids,attachments.media_keys,author_id,entities.mentions.username,geo.place_id,in_reply_to_user_id,referenced_tweets.id,referenced_tweets.id.author_id&quot;</span>,</span>
 <span id="cb18-13"><a href="search-tweets.html#cb18-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">user.fields =</span> <span class="st">&quot;created_at,description,entities,id,location,name,pinned_tweet_id,profile_image_url,protected,public_metrics,url,username,verified,withheld&quot;</span>, </span>
@@ -340,8 +364,8 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/fraba/r-academic-twitter03-search-tweets.Rmd",
-"text": "Edit"
+"link": null,
+"text": null
 },
 "history": {
 "link": null,

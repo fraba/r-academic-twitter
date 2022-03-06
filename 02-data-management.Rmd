@@ -1,5 +1,13 @@
 # Data management
 
+**Chapter progress bar**
+
+```{r echo = F, results = 'asis'}
+
+printProgressBar(.35)
+
+```
+
 Once we got access to the Twitter API we must start planning about data management. The Twitter API can potentially return a huge amount of data (the current limits for Academic access are set to 10,000,000 tweets a month). What do we do with it? Where do we store it but also should we store it? 
 
 ## JSON
@@ -9,7 +17,7 @@ The default format for data loads from the Twitter API is JSON. A JSON (JavaScri
 
 ### Read your JSON files: Tweets
 
-```{r}
+```{r eval = F}
 
 json_data_dir <- 
   "json_data"

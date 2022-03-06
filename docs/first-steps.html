@@ -10,7 +10,7 @@
 
   <meta property="og:title" content="Chapter 2 First steps | Twitter API Academic Research access with R" />
   <meta property="og:type" content="book" />
-  <meta property="og:url" content="your book url like https://fraba.github.io/r-academic-twitter/" />
+  
   
   <meta property="og:description" content="This book offers some practical understanding on how to access the Twitter API with R." />
   <meta name="github-repo" content="fraba/r-academic-twitter" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Francesco Bailo" />
 
 
-<meta name="date" content="2022-03-04" />
+<meta name="date" content="2022-03-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -124,6 +124,28 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -198,12 +220,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="first-steps" class="section level1 hasAnchor" number="2">
 <h1><span class="header-section-number">Chapter 2</span> First steps<a href="first-steps.html#first-steps" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><strong>Chapter progress bar</strong></p>
+<p>████████████████████████████░░ 95%</p>
 <div id="packages" class="section level2 hasAnchor" number="2.1">
 <h2><span class="header-section-number">2.1</span> Packages<a href="first-steps.html#packages" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The R code relies on generalist packages to access the API and manipulate the response.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="first-steps.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;httr&quot;</span>)</span>
-<span id="cb1-2"><a href="first-steps.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;jsonlite&quot;</span>)</span>
-<span id="cb1-3"><a href="first-steps.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;dplyr&quot;</span>)</span></code></pre></div>
+<span id="cb1-2"><a href="first-steps.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;dplyr&quot;</span>)</span>
+<span id="cb1-3"><a href="first-steps.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;jsonlite&quot;</span>)</span></code></pre></div>
 <p>If you don’t have these packages already install, you need to run</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="first-steps.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;httr&quot;</span>)</span>
 <span id="cb2-2"><a href="first-steps.html#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;jsonlite&quot;</span>)</span>
@@ -251,7 +275,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>By printing <code>res</code> we see details about the HTTP response (but not yet the API response or the content returned from the API).</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="first-steps.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(res)</span></code></pre></div>
 <pre><code>## Response [https://api.twitter.com/2/tweets/counts/recent?query=from%3ATwitterDev&amp;granularity=day]
-##   Date: 2022-03-04 03:27
+##   Date: 2022-03-06 06:10
 ##   Status: 200
 ##   Content-Type: application/json; charset=utf-8
 ##   Size: 729 B</code></pre>
@@ -271,18 +295,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## {
 ##     &quot;data&quot;: [
 ##         {
-##             &quot;end&quot;: &quot;2022-02-26T00:00:00.000Z&quot;,
-##             &quot;start&quot;: &quot;2022-02-25T03:27:01.000Z&quot;,
-##             &quot;tweet_count&quot;: 0
-##         },
-##         {
-##             &quot;end&quot;: &quot;2022-02-27T00:00:00.000Z&quot;,
-##             &quot;start&quot;: &quot;2022-02-26T00:00:00.000Z&quot;,
-##             &quot;tweet_count&quot;: 0
-##         },
-##         {
 ##             &quot;end&quot;: &quot;2022-02-28T00:00:00.000Z&quot;,
-##             &quot;start&quot;: &quot;2022-02-27T00:00:00.000Z&quot;,
+##             &quot;start&quot;: &quot;2022-02-27T06:10:42.000Z&quot;,
 ##             &quot;tweet_count&quot;: 0
 ##         },
 ##         {
@@ -306,8 +320,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##             &quot;tweet_count&quot;: 0
 ##         },
 ##         {
-##             &quot;end&quot;: &quot;2022-03-04T03:27:01.000Z&quot;,
+##             &quot;end&quot;: &quot;2022-03-05T00:00:00.000Z&quot;,
 ##             &quot;start&quot;: &quot;2022-03-04T00:00:00.000Z&quot;,
+##             &quot;tweet_count&quot;: 0
+##         },
+##         {
+##             &quot;end&quot;: &quot;2022-03-06T00:00:00.000Z&quot;,
+##             &quot;start&quot;: &quot;2022-03-05T00:00:00.000Z&quot;,
+##             &quot;tweet_count&quot;: 0
+##         },
+##         {
+##             &quot;end&quot;: &quot;2022-03-06T06:10:42.000Z&quot;,
+##             &quot;start&quot;: &quot;2022-03-06T00:00:00.000Z&quot;,
 ##             &quot;tweet_count&quot;: 0
 ##         }
 ##     ],
@@ -322,19 +346,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="first-steps.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(obj.r)</span></code></pre></div>
 <pre><code>## $data
 ##                        end                    start tweet_count
-## 1 2022-02-26T00:00:00.000Z 2022-02-25T03:27:01.000Z           0
-## 2 2022-02-27T00:00:00.000Z 2022-02-26T00:00:00.000Z           0
-## 3 2022-02-28T00:00:00.000Z 2022-02-27T00:00:00.000Z           0
-## 4 2022-03-01T00:00:00.000Z 2022-02-28T00:00:00.000Z           1
-## 5 2022-03-02T00:00:00.000Z 2022-03-01T00:00:00.000Z           0
-## 6 2022-03-03T00:00:00.000Z 2022-03-02T00:00:00.000Z           0
-## 7 2022-03-04T00:00:00.000Z 2022-03-03T00:00:00.000Z           0
-## 8 2022-03-04T03:27:01.000Z 2022-03-04T00:00:00.000Z           0
+## 1 2022-02-28T00:00:00.000Z 2022-02-27T06:10:42.000Z           0
+## 2 2022-03-01T00:00:00.000Z 2022-02-28T00:00:00.000Z           1
+## 3 2022-03-02T00:00:00.000Z 2022-03-01T00:00:00.000Z           0
+## 4 2022-03-03T00:00:00.000Z 2022-03-02T00:00:00.000Z           0
+## 5 2022-03-04T00:00:00.000Z 2022-03-03T00:00:00.000Z           0
+## 6 2022-03-05T00:00:00.000Z 2022-03-04T00:00:00.000Z           0
+## 7 2022-03-06T00:00:00.000Z 2022-03-05T00:00:00.000Z           0
+## 8 2022-03-06T06:10:42.000Z 2022-03-06T00:00:00.000Z           0
 ## 
 ## $meta
 ## $meta$total_tweet_count
 ## [1] 1</code></pre>
-<p>And this is information on the number of tweets posted by <span class="citation">@TwitterDev</span> in the days before our request.</p>
+<p>And this is information on the number of tweets posted by <span class="citation">(<a href="#ref-TwitterDev" role="doc-biblioref"><strong>TwitterDev?</strong></a>)</span> in the days before our request.</p>
 
 </div>
 </div>
@@ -375,8 +399,8 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/fraba/r-academic-twitter01-first-steps.Rmd",
-"text": "Edit"
+"link": null,
+"text": null
 },
 "history": {
 "link": null,

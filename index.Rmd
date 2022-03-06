@@ -4,7 +4,8 @@ author: "Francesco Bailo"
 date: '`r Sys.Date()`'
 site: bookdown::bookdown_site
 documentclass: book
-url: your book url like https://fraba.github.io/r-academic-twitter/
+bibliography: [packages.bib]
+# url: your book url like https://fraba.github.io/r-academic-twitter/
 # cover-image: path to the social sharing image like images/cover.jpg
 description: |
   This book offers some practical understanding on how to access the Twitter API with R.
@@ -18,7 +19,24 @@ github-repo: fraba/r-academic-twitter
 knitr::opts_chunk$set(echo = TRUE, 
                       warning = FALSE, 
                       message = FALSE, 
-                      results = 'hide')
+                      results = 'hide',
+                      cache = T)
+
+printProgressBar <- function(perc) {
+  
+  complete <- "█"
+  uncomplete <- "░"
+  
+  len <- 30
+  
+  len_complete_round <- round(perc*len)
+  
+  cat(paste0(c(rep(complete, len_complete_round), 
+               rep(uncomplete, len - len_complete_round),
+               " ", perc*100, "%"),
+             collapse = ""))
+  
+}
 
 ```
 
@@ -26,7 +44,15 @@ knitr::opts_chunk$set(echo = TRUE,
 
 ## Book  
 
-This book offers some practical understanding on how to access the Twitter API with R. It assumes an Academic Research access but also some familiarity with R. If you are a student or an academic you can get more information on how to apply [here](https://developer.twitter.com/en/products/twitter-api/academic-research/application-info). The book is based on the official Twitter documentation that you can access [here](https://developer.twitter.com/en/docs/twitter-api). 
+This book offers some practical understanding on how to access the Twitter API with R. It assumes an Academic Research access but also some familiarity with R. If you are a student or an academic you can get more information on how to apply [here](https://developer.twitter.com/en/products/twitter-api/academic-research/application-info). The book is based on the official Twitter documentation that you can access [here](https://developer.twitter.com/en/docs/twitter-api). The code used in this book doesn't rely on any ad-hoc package to access the Twitter API. This probably requries some more work on the user side but it also allows for more flexibility in defining and setting API queries and in responding to API changes. The code used in this book relies on three generalist packages 
+
+1. The [httr](https://cran.r-project.org/web/packages/httr/index.html) package [@R-httr] to deal with HTTP requests;
+
+2. The [dplyr](https://cran.r-project.org/web/packages/dplyr/) package [@R-dplyr] to manipulate data objects in R; and 
+
+3. The [jsonlite](https://cran.r-project.org/web/packages/jsonlite/) package [@R-jsonlite] to deal with JSON-formatted data objects. 
+
+This book is very much a working in progress. For suggestions, comments or if you note a mistake, please create an issue [here](https://github.com/fraba/r-academic-twitter/issues).
 
 ### Twitter relationships
 
@@ -71,6 +97,7 @@ render_graph(graph)
 
 ```
 
+Of course there are many other entry points. A good place to see a complete list is the official [Twitter API endpoint map](https://developer.twitter.com/en/docs/twitter-api/migrate/twitter-api-endpoint-map).
 
 ## Author
 
@@ -81,4 +108,6 @@ Francesco Bailo is Lecturer of Digital and Social Media at the University of Tec
 knitr::include_graphics("https://profiles.uts.edu.au/Francesco.Bailo/photo")
 
 ```
+
+
 
