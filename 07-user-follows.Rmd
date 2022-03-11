@@ -4,6 +4,186 @@
 
 ```{r echo = F, results = 'asis'}
 
-printProgressBar(.0)
+printProgressBar(.9)
 
 ```
+
+There are different ways to get the users that a given user follows.  
+
+
+```{r echo = FALSE, results = 'show', out.width = '40%'}
+
+library(DiagrammeR)
+library(data.table)
+
+niv <- 
+  c("User A\\n(entry point)", "User B", "User C", "User D")
+widths <- 
+  c(.8, .5, .5, .5)
+colors <-
+  c("red", "blue", "blue", "blue")
+from <- 
+  c("User A\\n(entry point)", "User A\\n(entry point)", "User A\\n(entry point)")
+to <- 
+  c("User B", "User C", "User D")
+
+temp <- 
+  data.table::data.table(from = factor(from, levels=niv),
+                         to = factor(to, levels=niv))
+
+nodes <-   
+  DiagrammeR::create_node_df(n=length(niv), label=niv,  width=widths, color = colors) 
+
+edges <- 
+  DiagrammeR::create_edge_df(from = temp$from, 
+                             to = temp$to, 
+                             rel = "leading_to", 
+                             label = c("follows"))
+
+graph <- 
+  create_graph(nodes_df = nodes, edges_df = edges)
+
+render_graph(graph)
+
+```
+
+If we are interested in getting only the Twitter `user_id` of each user out entry point user follows we can use this API endpoint (at this time a corresponding v2 version is not available as far as I know)
+
+```{r}
+
+url <- 
+  "https://api.twitter.com/1.1/friends/ids.json"
+
+```
+
+and this parameters 
+
+```{r}
+
+entry_point_user_id <- 
+  '2962620002'
+
+params <- 
+  list(user_id = entry_point_user_id,
+       count = 5000)
+
+```
+
+The only required parameter is the `user_id` or alternatively `screen_name`.
+
+We store the JSON-formatted results into a data folder which we set with
+
+```{r eval = F}
+
+json_data_dir <- 
+  "json_data"
+
+if(!dir.exists(json_data_dir)) {
+  dir.create(json_data_dir)
+}
+
+```
+
+We are now ready to request a paginate the results (in case we our entry point user follows more than 5,000 users).
+
+```{r}
+
+headers <- 
+  c(`Authorization` = sprintf('Bearer %s', 
+                              Sys.getenv("BEARER_TOKEN")))
+
+res <- 
+  httr::GET(url,
+            httr::add_headers(.headers = headers),
+            query = params)
+
+```
+
+```{r}
+
+obj.r <- 
+  httr::content(res, as = "text") %>%
+  jsonlite::fromJSON()
+
+jsonlite::write_json(httr::content(res, as = "parsed"), 
+                     path = sprintf("%s/%s_follows_ids_%s.json",
+                                    json_data_dir,
+                                    entry_point_user_id,
+                                    sprintf("%04d", 1)))
+
+```
+
+Do we have additional pages? 
+
+```{r eval = F}
+
+if (obj.r$next_cursor != 0) {
+  
+  counter <- 2
+  
+  while(TRUE) {
+    
+    params[['cursor']] <-
+      obj.r$next_cursor_str
+    
+    print(sprintf("Next cursor: %s...", obj.r$next_cursor_str))
+    
+    res <- 
+      httr::GET(url,
+                httr::add_headers(.headers = headers),
+                query = params)
+    
+    obj.r <- 
+      httr::content(res, as = "text") %>%
+      jsonlite::fromJSON()
+    
+    if (!is.null(obj.r$error) && obj.r$error['code'] == 88) {
+      
+      while(TRUE) {
+        
+        print(obj.r$errors)
+        
+        Sys.sleep(60)
+        
+        res <- 
+          httr::GET(url,
+                    httr::add_headers(.headers = headers),
+                    query = params)
+        
+        obj.r <- 
+          httr::content(res, as = "text") %>%
+          jsonlite::fromJSON()
+        
+        if (is.null(obj.r$errors)) {
+          
+          break
+          
+        } 
+        
+      }
+      
+    }
+    
+    jsonlite::write_json(httr::content(res, as = "parsed"), 
+                         path = sprintf("%s/%s_follows_ids_%s.json",
+                                        json_data_dir,
+                                        entry_point_user_id,
+                                        sprintf("%04d", counter)))
+    
+    
+    if (obj.r$next_cursor == 0) {
+      
+      break
+      
+    }
+    
+    counter <- 
+      counter + 1
+    
+  }
+  
+}
+
+
+```
+

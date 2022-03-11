@@ -24,7 +24,7 @@
 <meta name="author" content="Francesco Bailo" />
 
 
-<meta name="date" content="2022-03-07" />
+<meta name="date" content="2022-03-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -176,6 +176,10 @@ div.csl-indent {
 <li class="chapter" data-level="2.1" data-path="first-steps.html"><a href="first-steps.html#packages"><i class="fa fa-check"></i><b>2.1</b> Packages<span></span></a></li>
 <li class="chapter" data-level="2.2" data-path="first-steps.html"><a href="first-steps.html#credentials"><i class="fa fa-check"></i><b>2.2</b> Credentials<span></span></a></li>
 <li class="chapter" data-level="2.3" data-path="first-steps.html"><a href="first-steps.html#interrogating-the-twitter-api"><i class="fa fa-check"></i><b>2.3</b> Interrogating the Twitter API<span></span></a></li>
+<li class="chapter" data-level="2.4" data-path="first-steps.html"><a href="first-steps.html#twitter-api-v1.1-and-twitter-api-v2"><i class="fa fa-check"></i><b>2.4</b> Twitter API v1.1 and Twitter API v2<span></span></a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="first-steps.html"><a href="first-steps.html#api-v1.1-errrors"><i class="fa fa-check"></i><b>2.4.1</b> API v1.1 errrors<span></span></a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="data-management.html"><a href="data-management.html"><i class="fa fa-check"></i><b>3</b> Data management<span></span></a>
 <ul>
@@ -228,66 +232,66 @@ div.csl-indent {
 <p>The default format for data loads from the Twitter API is JSON. A JSON (JavaScript Object Notation) file is a plain text file - so you can open it with any text editor. Information is structured through nesting like HTML or XML. JSON can’t be naturally manipulated in R. Access and analysis in R involves reading the text in but also transforming it into R vector <em>types</em> (e.g. <code>logical</code>, <code>integer</code>, <code>double</code>, <code>character</code>) and <em>structures</em> (e.g. atomic vector, <code>data.frame</code>, <code>matrix</code>, <code>list</code>) - which is not painless!</p>
 <div id="read-your-json-files-tweets" class="section level3 hasAnchor" number="3.1.1">
 <h3><span class="header-section-number">3.1.1</span> Read your JSON files: Tweets<a href="data-management.html#read-your-json-files-tweets" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="data-management.html#cb16-1" aria-hidden="true" tabindex="-1"></a>json_data_dir <span class="ot">&lt;-</span> </span>
-<span id="cb16-2"><a href="data-management.html#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;json_data&quot;</span></span>
-<span id="cb16-3"><a href="data-management.html#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="data-management.html#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">dir.exists</span>(json_data_dir)) {</span>
-<span id="cb16-5"><a href="data-management.html#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dir.create</span>(json_data_dir)</span>
-<span id="cb16-6"><a href="data-management.html#cb16-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb16-7"><a href="data-management.html#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-8"><a href="data-management.html#cb16-8" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> </span>
-<span id="cb16-9"><a href="data-management.html#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list.files</span>(json_data_dir)</span>
-<span id="cb16-10"><a href="data-management.html#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-11"><a href="data-management.html#cb16-11" aria-hidden="true" tabindex="-1"></a>tweet_data.df <span class="ot">&lt;-</span> </span>
-<span id="cb16-12"><a href="data-management.html#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>()</span>
-<span id="cb16-13"><a href="data-management.html#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-14"><a href="data-management.html#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(file <span class="cf">in</span> files) {</span>
-<span id="cb16-15"><a href="data-management.html#cb16-15" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb16-16"><a href="data-management.html#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">sprintf</span>(<span class="st">&quot;File missing: %s&quot;</span>, </span>
-<span id="cb16-17"><a href="data-management.html#cb16-17" aria-hidden="true" tabindex="-1"></a>                <span class="fu">length</span>(files) <span class="sc">-</span> <span class="fu">which</span>(file <span class="sc">%in%</span> files)))</span>
-<span id="cb16-18"><a href="data-management.html#cb16-18" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb16-19"><a href="data-management.html#cb16-19" aria-hidden="true" tabindex="-1"></a>  obj.r <span class="ot">&lt;-</span> </span>
-<span id="cb16-20"><a href="data-management.html#cb16-20" aria-hidden="true" tabindex="-1"></a>    jsonlite<span class="sc">::</span><span class="fu">read_json</span>(<span class="fu">sprintf</span>(<span class="st">&quot;%s/%s&quot;</span>, json_data_dir, file))</span>
-<span id="cb16-21"><a href="data-management.html#cb16-21" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb16-22"><a href="data-management.html#cb16-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(obj.r<span class="sc">$</span>data)) {</span>
-<span id="cb16-23"><a href="data-management.html#cb16-23" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-24"><a href="data-management.html#cb16-24" aria-hidden="true" tabindex="-1"></a>    this_tweet.df <span class="ot">&lt;-</span> </span>
-<span id="cb16-25"><a href="data-management.html#cb16-25" aria-hidden="true" tabindex="-1"></a>      <span class="fu">data.frame</span>(<span class="at">id =</span> </span>
-<span id="cb16-26"><a href="data-management.html#cb16-26" aria-hidden="true" tabindex="-1"></a>                   obj.r<span class="sc">$</span>data[[i]]<span class="sc">$</span>id[[<span class="dv">1</span>]][[<span class="dv">1</span>]],</span>
-<span id="cb16-27"><a href="data-management.html#cb16-27" aria-hidden="true" tabindex="-1"></a>                 <span class="at">author_id =</span> </span>
-<span id="cb16-28"><a href="data-management.html#cb16-28" aria-hidden="true" tabindex="-1"></a>                   obj.r<span class="sc">$</span>data[[i]]<span class="sc">$</span>author_id[[<span class="dv">1</span>]][[<span class="dv">1</span>]],</span>
-<span id="cb16-29"><a href="data-management.html#cb16-29" aria-hidden="true" tabindex="-1"></a>                 <span class="at">created_at =</span> </span>
-<span id="cb16-30"><a href="data-management.html#cb16-30" aria-hidden="true" tabindex="-1"></a>                   obj.r<span class="sc">$</span>data[[i]]<span class="sc">$</span>created_at[[<span class="dv">1</span>]][[<span class="dv">1</span>]],</span>
-<span id="cb16-31"><a href="data-management.html#cb16-31" aria-hidden="true" tabindex="-1"></a>                 <span class="at">lang =</span> </span>
-<span id="cb16-32"><a href="data-management.html#cb16-32" aria-hidden="true" tabindex="-1"></a>                   obj.r<span class="sc">$</span>data[[i]]<span class="sc">$</span>lang[[<span class="dv">1</span>]][[<span class="dv">1</span>]],</span>
-<span id="cb16-33"><a href="data-management.html#cb16-33" aria-hidden="true" tabindex="-1"></a>                 <span class="at">reply_settings =</span> </span>
-<span id="cb16-34"><a href="data-management.html#cb16-34" aria-hidden="true" tabindex="-1"></a>                   obj.r<span class="sc">$</span>data[[i]]<span class="sc">$</span>reply_settings[[<span class="dv">1</span>]][[<span class="dv">1</span>]],</span>
-<span id="cb16-35"><a href="data-management.html#cb16-35" aria-hidden="true" tabindex="-1"></a>                 <span class="at">source  =</span> </span>
-<span id="cb16-36"><a href="data-management.html#cb16-36" aria-hidden="true" tabindex="-1"></a>                   obj.r<span class="sc">$</span>data[[i]]<span class="sc">$</span>source[[<span class="dv">1</span>]][[<span class="dv">1</span>]],</span>
-<span id="cb16-37"><a href="data-management.html#cb16-37" aria-hidden="true" tabindex="-1"></a>                 <span class="at">possibly_sensitive =</span> </span>
-<span id="cb16-38"><a href="data-management.html#cb16-38" aria-hidden="true" tabindex="-1"></a>                   obj.r<span class="sc">$</span>data[[i]]<span class="sc">$</span>possibly_sensitive[[<span class="dv">1</span>]][[<span class="dv">1</span>]],</span>
-<span id="cb16-39"><a href="data-management.html#cb16-39" aria-hidden="true" tabindex="-1"></a>                 <span class="at">conversation_id =</span> </span>
-<span id="cb16-40"><a href="data-management.html#cb16-40" aria-hidden="true" tabindex="-1"></a>                   obj.r<span class="sc">$</span>data[[i]]<span class="sc">$</span>conversation_id[[<span class="dv">1</span>]][[<span class="dv">1</span>]],</span>
-<span id="cb16-41"><a href="data-management.html#cb16-41" aria-hidden="true" tabindex="-1"></a>                 <span class="at">text =</span> </span>
-<span id="cb16-42"><a href="data-management.html#cb16-42" aria-hidden="true" tabindex="-1"></a>                   obj.r<span class="sc">$</span>data[[i]]<span class="sc">$</span>text[[<span class="dv">1</span>]][[<span class="dv">1</span>]])</span>
-<span id="cb16-43"><a href="data-management.html#cb16-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-44"><a href="data-management.html#cb16-44" aria-hidden="true" tabindex="-1"></a>    these_metrics <span class="ot">&lt;-</span> </span>
-<span id="cb16-45"><a href="data-management.html#cb16-45" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.data.frame</span>(obj.r<span class="sc">$</span>data[[i]]<span class="sc">$</span>public_metrics)</span>
-<span id="cb16-46"><a href="data-management.html#cb16-46" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-47"><a href="data-management.html#cb16-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">colnames</span>(these_metrics) <span class="ot">&lt;-</span> </span>
-<span id="cb16-48"><a href="data-management.html#cb16-48" aria-hidden="true" tabindex="-1"></a>      <span class="fu">names</span>(obj.r<span class="sc">$</span>data[[i]]<span class="sc">$</span>public_metrics)</span>
-<span id="cb16-49"><a href="data-management.html#cb16-49" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-50"><a href="data-management.html#cb16-50" aria-hidden="true" tabindex="-1"></a>    this_tweet.df <span class="ot">&lt;-</span> </span>
-<span id="cb16-51"><a href="data-management.html#cb16-51" aria-hidden="true" tabindex="-1"></a>      this_tweet.df <span class="sc">%&gt;%</span></span>
-<span id="cb16-52"><a href="data-management.html#cb16-52" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">bind_cols</span>(these_metrics)</span>
-<span id="cb16-53"><a href="data-management.html#cb16-53" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-54"><a href="data-management.html#cb16-54" aria-hidden="true" tabindex="-1"></a>    tweet_data.df <span class="ot">&lt;-</span> </span>
-<span id="cb16-55"><a href="data-management.html#cb16-55" aria-hidden="true" tabindex="-1"></a>      tweet_data.df <span class="sc">%&gt;%</span></span>
-<span id="cb16-56"><a href="data-management.html#cb16-56" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">bind_rows</span>(this_tweet.df)</span>
-<span id="cb16-57"><a href="data-management.html#cb16-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-58"><a href="data-management.html#cb16-58" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb16-59"><a href="data-management.html#cb16-59" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb16-60"><a href="data-management.html#cb16-60" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="data-management.html#cb18-1" aria-hidden="true" tabindex="-1"></a>json_data_dir <span class="ot">&lt;-</span> </span>
+<span id="cb18-2"><a href="data-management.html#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;json_data&quot;</span></span>
+<span id="cb18-3"><a href="data-management.html#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="data-management.html#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">dir.exists</span>(json_data_dir)) {</span>
+<span id="cb18-5"><a href="data-management.html#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dir.create</span>(json_data_dir)</span>
+<span id="cb18-6"><a href="data-management.html#cb18-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-7"><a href="data-management.html#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="data-management.html#cb18-8" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> </span>
+<span id="cb18-9"><a href="data-management.html#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list.files</span>(json_data_dir)</span>
+<span id="cb18-10"><a href="data-management.html#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="data-management.html#cb18-11" aria-hidden="true" tabindex="-1"></a>tweet_data.df <span class="ot">&lt;-</span> </span>
+<span id="cb18-12"><a href="data-management.html#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>()</span>
+<span id="cb18-13"><a href="data-management.html#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="data-management.html#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(file <span class="cf">in</span> files) {</span>
+<span id="cb18-15"><a href="data-management.html#cb18-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-16"><a href="data-management.html#cb18-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">sprintf</span>(<span class="st">&quot;File missing: %s&quot;</span>, </span>
+<span id="cb18-17"><a href="data-management.html#cb18-17" aria-hidden="true" tabindex="-1"></a>                <span class="fu">length</span>(files) <span class="sc">-</span> <span class="fu">which</span>(file <span class="sc">%in%</span> files)))</span>
+<span id="cb18-18"><a href="data-management.html#cb18-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-19"><a href="data-management.html#cb18-19" aria-hidden="true" tabindex="-1"></a>  obj.r <span class="ot">&lt;-</span> </span>
+<span id="cb18-20"><a href="data-management.html#cb18-20" aria-hidden="true" tabindex="-1"></a>    jsonlite<span class="sc">::</span><span class="fu">read_json</span>(<span class="fu">sprintf</span>(<span class="st">&quot;%s/%s&quot;</span>, json_data_dir, file))</span>
+<span id="cb18-21"><a href="data-management.html#cb18-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-22"><a href="data-management.html#cb18-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(obj.r<span class="sc">$</span>data)) {</span>
+<span id="cb18-23"><a href="data-management.html#cb18-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-24"><a href="data-management.html#cb18-24" aria-hidden="true" tabindex="-1"></a>    this_tweet.df <span class="ot">&lt;-</span> </span>
+<span id="cb18-25"><a href="data-management.html#cb18-25" aria-hidden="true" tabindex="-1"></a>      <span class="fu">data.frame</span>(<span class="at">id =</span> </span>
+<span id="cb18-26"><a href="data-management.html#cb18-26" aria-hidden="true" tabindex="-1"></a>                   obj.r<span class="sc">$</span>data[[i]]<span class="sc">$</span>id[[<span class="dv">1</span>]][[<span class="dv">1</span>]],</span>
+<span id="cb18-27"><a href="data-management.html#cb18-27" aria-hidden="true" tabindex="-1"></a>                 <span class="at">author_id =</span> </span>
+<span id="cb18-28"><a href="data-management.html#cb18-28" aria-hidden="true" tabindex="-1"></a>                   obj.r<span class="sc">$</span>data[[i]]<span class="sc">$</span>author_id[[<span class="dv">1</span>]][[<span class="dv">1</span>]],</span>
+<span id="cb18-29"><a href="data-management.html#cb18-29" aria-hidden="true" tabindex="-1"></a>                 <span class="at">created_at =</span> </span>
+<span id="cb18-30"><a href="data-management.html#cb18-30" aria-hidden="true" tabindex="-1"></a>                   obj.r<span class="sc">$</span>data[[i]]<span class="sc">$</span>created_at[[<span class="dv">1</span>]][[<span class="dv">1</span>]],</span>
+<span id="cb18-31"><a href="data-management.html#cb18-31" aria-hidden="true" tabindex="-1"></a>                 <span class="at">lang =</span> </span>
+<span id="cb18-32"><a href="data-management.html#cb18-32" aria-hidden="true" tabindex="-1"></a>                   obj.r<span class="sc">$</span>data[[i]]<span class="sc">$</span>lang[[<span class="dv">1</span>]][[<span class="dv">1</span>]],</span>
+<span id="cb18-33"><a href="data-management.html#cb18-33" aria-hidden="true" tabindex="-1"></a>                 <span class="at">reply_settings =</span> </span>
+<span id="cb18-34"><a href="data-management.html#cb18-34" aria-hidden="true" tabindex="-1"></a>                   obj.r<span class="sc">$</span>data[[i]]<span class="sc">$</span>reply_settings[[<span class="dv">1</span>]][[<span class="dv">1</span>]],</span>
+<span id="cb18-35"><a href="data-management.html#cb18-35" aria-hidden="true" tabindex="-1"></a>                 <span class="at">source  =</span> </span>
+<span id="cb18-36"><a href="data-management.html#cb18-36" aria-hidden="true" tabindex="-1"></a>                   obj.r<span class="sc">$</span>data[[i]]<span class="sc">$</span>source[[<span class="dv">1</span>]][[<span class="dv">1</span>]],</span>
+<span id="cb18-37"><a href="data-management.html#cb18-37" aria-hidden="true" tabindex="-1"></a>                 <span class="at">possibly_sensitive =</span> </span>
+<span id="cb18-38"><a href="data-management.html#cb18-38" aria-hidden="true" tabindex="-1"></a>                   obj.r<span class="sc">$</span>data[[i]]<span class="sc">$</span>possibly_sensitive[[<span class="dv">1</span>]][[<span class="dv">1</span>]],</span>
+<span id="cb18-39"><a href="data-management.html#cb18-39" aria-hidden="true" tabindex="-1"></a>                 <span class="at">conversation_id =</span> </span>
+<span id="cb18-40"><a href="data-management.html#cb18-40" aria-hidden="true" tabindex="-1"></a>                   obj.r<span class="sc">$</span>data[[i]]<span class="sc">$</span>conversation_id[[<span class="dv">1</span>]][[<span class="dv">1</span>]],</span>
+<span id="cb18-41"><a href="data-management.html#cb18-41" aria-hidden="true" tabindex="-1"></a>                 <span class="at">text =</span> </span>
+<span id="cb18-42"><a href="data-management.html#cb18-42" aria-hidden="true" tabindex="-1"></a>                   obj.r<span class="sc">$</span>data[[i]]<span class="sc">$</span>text[[<span class="dv">1</span>]][[<span class="dv">1</span>]])</span>
+<span id="cb18-43"><a href="data-management.html#cb18-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-44"><a href="data-management.html#cb18-44" aria-hidden="true" tabindex="-1"></a>    these_metrics <span class="ot">&lt;-</span> </span>
+<span id="cb18-45"><a href="data-management.html#cb18-45" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.data.frame</span>(obj.r<span class="sc">$</span>data[[i]]<span class="sc">$</span>public_metrics)</span>
+<span id="cb18-46"><a href="data-management.html#cb18-46" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-47"><a href="data-management.html#cb18-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">colnames</span>(these_metrics) <span class="ot">&lt;-</span> </span>
+<span id="cb18-48"><a href="data-management.html#cb18-48" aria-hidden="true" tabindex="-1"></a>      <span class="fu">names</span>(obj.r<span class="sc">$</span>data[[i]]<span class="sc">$</span>public_metrics)</span>
+<span id="cb18-49"><a href="data-management.html#cb18-49" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-50"><a href="data-management.html#cb18-50" aria-hidden="true" tabindex="-1"></a>    this_tweet.df <span class="ot">&lt;-</span> </span>
+<span id="cb18-51"><a href="data-management.html#cb18-51" aria-hidden="true" tabindex="-1"></a>      this_tweet.df <span class="sc">%&gt;%</span></span>
+<span id="cb18-52"><a href="data-management.html#cb18-52" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">bind_cols</span>(these_metrics)</span>
+<span id="cb18-53"><a href="data-management.html#cb18-53" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-54"><a href="data-management.html#cb18-54" aria-hidden="true" tabindex="-1"></a>    tweet_data.df <span class="ot">&lt;-</span> </span>
+<span id="cb18-55"><a href="data-management.html#cb18-55" aria-hidden="true" tabindex="-1"></a>      tweet_data.df <span class="sc">%&gt;%</span></span>
+<span id="cb18-56"><a href="data-management.html#cb18-56" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">bind_rows</span>(this_tweet.df)</span>
+<span id="cb18-57"><a href="data-management.html#cb18-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-58"><a href="data-management.html#cb18-58" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb18-59"><a href="data-management.html#cb18-59" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-60"><a href="data-management.html#cb18-60" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 </div>
 <div id="storage-analysis-and-acccess" class="section level2 hasAnchor" number="3.2">

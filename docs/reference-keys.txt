@@ -6,6 +6,8 @@ first-steps
 packages
 credentials
 interrogating-the-twitter-api
+twitter-api-v1.1-and-twitter-api-v2
+api-v1.1-errrors
 data-management
 json
 read-your-json-files-tweets

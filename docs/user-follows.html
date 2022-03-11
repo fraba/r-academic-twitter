@@ -24,7 +24,7 @@
 <meta name="author" content="Francesco Bailo" />
 
 
-<meta name="date" content="2022-03-07" />
+<meta name="date" content="2022-03-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -176,6 +176,10 @@ div.csl-indent {
 <li class="chapter" data-level="2.1" data-path="first-steps.html"><a href="first-steps.html#packages"><i class="fa fa-check"></i><b>2.1</b> Packages<span></span></a></li>
 <li class="chapter" data-level="2.2" data-path="first-steps.html"><a href="first-steps.html#credentials"><i class="fa fa-check"></i><b>2.2</b> Credentials<span></span></a></li>
 <li class="chapter" data-level="2.3" data-path="first-steps.html"><a href="first-steps.html#interrogating-the-twitter-api"><i class="fa fa-check"></i><b>2.3</b> Interrogating the Twitter API<span></span></a></li>
+<li class="chapter" data-level="2.4" data-path="first-steps.html"><a href="first-steps.html#twitter-api-v1.1-and-twitter-api-v2"><i class="fa fa-check"></i><b>2.4</b> Twitter API v1.1 and Twitter API v2<span></span></a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="first-steps.html"><a href="first-steps.html#api-v1.1-errrors"><i class="fa fa-check"></i><b>2.4.1</b> API v1.1 errrors<span></span></a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="data-management.html"><a href="data-management.html"><i class="fa fa-check"></i><b>3</b> Data management<span></span></a>
 <ul>
@@ -221,7 +225,113 @@ div.csl-indent {
 <div id="user-follows" class="section level1 hasAnchor" number="8">
 <h1><span class="header-section-number">Chapter 8</span> User follows<a href="user-follows.html#user-follows" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p><strong>Chapter progress bar</strong></p>
-<p>░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0%</p>
+<p>███████████████████████████░░░ 90%</p>
+<p>There are different ways to get the users that a given user follows.</p>
+<div id="htmlwidget-5d11f8974b89af132cc8" style="width:40%;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5d11f8974b89af132cc8">{"x":{"diagram":"digraph {\n\ngraph [layout = \"neato\",\n       outputorder = \"edgesfirst\",\n       bgcolor = \"white\"]\n\nnode [fontname = \"Helvetica\",\n      fontsize = \"10\",\n      shape = \"circle\",\n      fixedsize = \"true\",\n      width = \"0.5\",\n      style = \"filled\",\n      fillcolor = \"aliceblue\",\n      color = \"gray70\",\n      fontcolor = \"gray50\"]\n\nedge [fontname = \"Helvetica\",\n     fontsize = \"8\",\n     len = \"1.5\",\n     color = \"gray80\",\n     arrowsize = \"0.5\"]\n\n  \"1\" [label = \"User A\\n(entry point)\", width = \"0.8\", color = \"red\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"2\" [label = \"User B\", width = \"0.5\", color = \"blue\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"3\" [label = \"User C\", width = \"0.5\", color = \"blue\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"4\" [label = \"User D\", width = \"0.5\", color = \"blue\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n\"1\"->\"2\" [label = \"follows\"] \n\"1\"->\"3\" [label = \"follows\"] \n\"1\"->\"4\" [label = \"follows\"] \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p>If we are interested in getting only the Twitter <code>user_id</code> of each user out entry point user follows we can use this API endpoint (at this time a corresponding v2 version is not available as far as I know)</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="user-follows.html#cb24-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> </span>
+<span id="cb24-2"><a href="user-follows.html#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;https://api.twitter.com/1.1/followers/ids.json&quot;</span></span></code></pre></div>
+<p>and this parameters</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="user-follows.html#cb25-1" aria-hidden="true" tabindex="-1"></a>entry_point_user_id <span class="ot">&lt;-</span> </span>
+<span id="cb25-2"><a href="user-follows.html#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;2962620002&#39;</span></span>
+<span id="cb25-3"><a href="user-follows.html#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="user-follows.html#cb25-4" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> </span>
+<span id="cb25-5"><a href="user-follows.html#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">user_id =</span> entry_point_user_id,</span>
+<span id="cb25-6"><a href="user-follows.html#cb25-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">count =</span> <span class="dv">5000</span>)</span></code></pre></div>
+<p>The only required parameter is the <code>user_id</code> or alternatively <code>screen_name</code>.</p>
+<p>We store the JSON-formatted results into a data folder which we set with</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="user-follows.html#cb26-1" aria-hidden="true" tabindex="-1"></a>json_data_dir <span class="ot">&lt;-</span> </span>
+<span id="cb26-2"><a href="user-follows.html#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;json_data&quot;</span></span>
+<span id="cb26-3"><a href="user-follows.html#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="user-follows.html#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">dir.exists</span>(json_data_dir)) {</span>
+<span id="cb26-5"><a href="user-follows.html#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dir.create</span>(json_data_dir)</span>
+<span id="cb26-6"><a href="user-follows.html#cb26-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>We are now ready to request a paginate the results (in case we our entry point user follows more than 5,000 users).</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="user-follows.html#cb27-1" aria-hidden="true" tabindex="-1"></a>headers <span class="ot">&lt;-</span> </span>
+<span id="cb27-2"><a href="user-follows.html#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">`</span><span class="at">Authorization</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sprintf</span>(<span class="st">&#39;Bearer %s&#39;</span>, </span>
+<span id="cb27-3"><a href="user-follows.html#cb27-3" aria-hidden="true" tabindex="-1"></a>                              <span class="fu">Sys.getenv</span>(<span class="st">&quot;BEARER_TOKEN&quot;</span>)))</span>
+<span id="cb27-4"><a href="user-follows.html#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="user-follows.html#cb27-5" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> </span>
+<span id="cb27-6"><a href="user-follows.html#cb27-6" aria-hidden="true" tabindex="-1"></a>  httr<span class="sc">::</span><span class="fu">GET</span>(url,</span>
+<span id="cb27-7"><a href="user-follows.html#cb27-7" aria-hidden="true" tabindex="-1"></a>            httr<span class="sc">::</span><span class="fu">add_headers</span>(<span class="at">.headers =</span> headers),</span>
+<span id="cb27-8"><a href="user-follows.html#cb27-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">query =</span> params)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="user-follows.html#cb28-1" aria-hidden="true" tabindex="-1"></a>obj.r <span class="ot">&lt;-</span> </span>
+<span id="cb28-2"><a href="user-follows.html#cb28-2" aria-hidden="true" tabindex="-1"></a>  httr<span class="sc">::</span><span class="fu">content</span>(res, <span class="at">as =</span> <span class="st">&quot;text&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb28-3"><a href="user-follows.html#cb28-3" aria-hidden="true" tabindex="-1"></a>  jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>()</span>
+<span id="cb28-4"><a href="user-follows.html#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="user-follows.html#cb28-5" aria-hidden="true" tabindex="-1"></a>jsonlite<span class="sc">::</span><span class="fu">write_json</span>(httr<span class="sc">::</span><span class="fu">content</span>(res, <span class="at">as =</span> <span class="st">&quot;parsed&quot;</span>), </span>
+<span id="cb28-6"><a href="user-follows.html#cb28-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">path =</span> <span class="fu">sprintf</span>(<span class="st">&quot;%s/%s_follows_ids_%s.json&quot;</span>,</span>
+<span id="cb28-7"><a href="user-follows.html#cb28-7" aria-hidden="true" tabindex="-1"></a>                                    json_data_dir,</span>
+<span id="cb28-8"><a href="user-follows.html#cb28-8" aria-hidden="true" tabindex="-1"></a>                                    entry_point_user_id,</span>
+<span id="cb28-9"><a href="user-follows.html#cb28-9" aria-hidden="true" tabindex="-1"></a>                                    <span class="fu">sprintf</span>(<span class="st">&quot;%04d&quot;</span>, <span class="dv">1</span>)))</span></code></pre></div>
+<p>Do we have additional pages?</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="user-follows.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (obj.r<span class="sc">$</span>next_cursor <span class="sc">!=</span> <span class="dv">0</span>) {</span>
+<span id="cb29-2"><a href="user-follows.html#cb29-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb29-3"><a href="user-follows.html#cb29-3" aria-hidden="true" tabindex="-1"></a>  counter <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb29-4"><a href="user-follows.html#cb29-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb29-5"><a href="user-follows.html#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span>(<span class="cn">TRUE</span>) {</span>
+<span id="cb29-6"><a href="user-follows.html#cb29-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-7"><a href="user-follows.html#cb29-7" aria-hidden="true" tabindex="-1"></a>    params[[<span class="st">&#39;cursor&#39;</span>]] <span class="ot">&lt;-</span></span>
+<span id="cb29-8"><a href="user-follows.html#cb29-8" aria-hidden="true" tabindex="-1"></a>      obj.r<span class="sc">$</span>next_cursor_str</span>
+<span id="cb29-9"><a href="user-follows.html#cb29-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-10"><a href="user-follows.html#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="fu">sprintf</span>(<span class="st">&quot;Next cursor: %s...&quot;</span>, obj.r<span class="sc">$</span>next_cursor_str))</span>
+<span id="cb29-11"><a href="user-follows.html#cb29-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-12"><a href="user-follows.html#cb29-12" aria-hidden="true" tabindex="-1"></a>    res <span class="ot">&lt;-</span> </span>
+<span id="cb29-13"><a href="user-follows.html#cb29-13" aria-hidden="true" tabindex="-1"></a>      httr<span class="sc">::</span><span class="fu">GET</span>(url,</span>
+<span id="cb29-14"><a href="user-follows.html#cb29-14" aria-hidden="true" tabindex="-1"></a>                httr<span class="sc">::</span><span class="fu">add_headers</span>(<span class="at">.headers =</span> headers),</span>
+<span id="cb29-15"><a href="user-follows.html#cb29-15" aria-hidden="true" tabindex="-1"></a>                <span class="at">query =</span> params)</span>
+<span id="cb29-16"><a href="user-follows.html#cb29-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-17"><a href="user-follows.html#cb29-17" aria-hidden="true" tabindex="-1"></a>    obj.r <span class="ot">&lt;-</span> </span>
+<span id="cb29-18"><a href="user-follows.html#cb29-18" aria-hidden="true" tabindex="-1"></a>      httr<span class="sc">::</span><span class="fu">content</span>(res, <span class="at">as =</span> <span class="st">&quot;text&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb29-19"><a href="user-follows.html#cb29-19" aria-hidden="true" tabindex="-1"></a>      jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>()</span>
+<span id="cb29-20"><a href="user-follows.html#cb29-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-21"><a href="user-follows.html#cb29-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(obj.r<span class="sc">$</span>error) <span class="sc">&amp;&amp;</span> obj.r<span class="sc">$</span>error[<span class="st">&#39;code&#39;</span>] <span class="sc">==</span> <span class="dv">88</span>) {</span>
+<span id="cb29-22"><a href="user-follows.html#cb29-22" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb29-23"><a href="user-follows.html#cb29-23" aria-hidden="true" tabindex="-1"></a>      <span class="cf">while</span>(<span class="cn">TRUE</span>) {</span>
+<span id="cb29-24"><a href="user-follows.html#cb29-24" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb29-25"><a href="user-follows.html#cb29-25" aria-hidden="true" tabindex="-1"></a>        <span class="fu">print</span>(obj.r<span class="sc">$</span>errors)</span>
+<span id="cb29-26"><a href="user-follows.html#cb29-26" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb29-27"><a href="user-follows.html#cb29-27" aria-hidden="true" tabindex="-1"></a>        <span class="fu">Sys.sleep</span>(<span class="dv">60</span>)</span>
+<span id="cb29-28"><a href="user-follows.html#cb29-28" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb29-29"><a href="user-follows.html#cb29-29" aria-hidden="true" tabindex="-1"></a>        res <span class="ot">&lt;-</span> </span>
+<span id="cb29-30"><a href="user-follows.html#cb29-30" aria-hidden="true" tabindex="-1"></a>          httr<span class="sc">::</span><span class="fu">GET</span>(url,</span>
+<span id="cb29-31"><a href="user-follows.html#cb29-31" aria-hidden="true" tabindex="-1"></a>                    httr<span class="sc">::</span><span class="fu">add_headers</span>(<span class="at">.headers =</span> headers),</span>
+<span id="cb29-32"><a href="user-follows.html#cb29-32" aria-hidden="true" tabindex="-1"></a>                    <span class="at">query =</span> params)</span>
+<span id="cb29-33"><a href="user-follows.html#cb29-33" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb29-34"><a href="user-follows.html#cb29-34" aria-hidden="true" tabindex="-1"></a>        obj.r <span class="ot">&lt;-</span> </span>
+<span id="cb29-35"><a href="user-follows.html#cb29-35" aria-hidden="true" tabindex="-1"></a>          httr<span class="sc">::</span><span class="fu">content</span>(res, <span class="at">as =</span> <span class="st">&quot;text&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb29-36"><a href="user-follows.html#cb29-36" aria-hidden="true" tabindex="-1"></a>          jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>()</span>
+<span id="cb29-37"><a href="user-follows.html#cb29-37" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb29-38"><a href="user-follows.html#cb29-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (<span class="fu">is.null</span>(obj.r<span class="sc">$</span>errors)) {</span>
+<span id="cb29-39"><a href="user-follows.html#cb29-39" aria-hidden="true" tabindex="-1"></a>          </span>
+<span id="cb29-40"><a href="user-follows.html#cb29-40" aria-hidden="true" tabindex="-1"></a>          <span class="cf">break</span></span>
+<span id="cb29-41"><a href="user-follows.html#cb29-41" aria-hidden="true" tabindex="-1"></a>          </span>
+<span id="cb29-42"><a href="user-follows.html#cb29-42" aria-hidden="true" tabindex="-1"></a>        } </span>
+<span id="cb29-43"><a href="user-follows.html#cb29-43" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb29-44"><a href="user-follows.html#cb29-44" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb29-45"><a href="user-follows.html#cb29-45" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb29-46"><a href="user-follows.html#cb29-46" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb29-47"><a href="user-follows.html#cb29-47" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-48"><a href="user-follows.html#cb29-48" aria-hidden="true" tabindex="-1"></a>    jsonlite<span class="sc">::</span><span class="fu">write_json</span>(httr<span class="sc">::</span><span class="fu">content</span>(res, <span class="at">as =</span> <span class="st">&quot;parsed&quot;</span>), </span>
+<span id="cb29-49"><a href="user-follows.html#cb29-49" aria-hidden="true" tabindex="-1"></a>                         <span class="at">path =</span> <span class="fu">sprintf</span>(<span class="st">&quot;%s/%s_follows_ids_%s.json&quot;</span>,</span>
+<span id="cb29-50"><a href="user-follows.html#cb29-50" aria-hidden="true" tabindex="-1"></a>                                        json_data_dir,</span>
+<span id="cb29-51"><a href="user-follows.html#cb29-51" aria-hidden="true" tabindex="-1"></a>                                        entry_point_user_id,</span>
+<span id="cb29-52"><a href="user-follows.html#cb29-52" aria-hidden="true" tabindex="-1"></a>                                        <span class="fu">sprintf</span>(<span class="st">&quot;%04d&quot;</span>, counter)))</span>
+<span id="cb29-53"><a href="user-follows.html#cb29-53" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-54"><a href="user-follows.html#cb29-54" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-55"><a href="user-follows.html#cb29-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (obj.r<span class="sc">$</span>next_cursor <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb29-56"><a href="user-follows.html#cb29-56" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb29-57"><a href="user-follows.html#cb29-57" aria-hidden="true" tabindex="-1"></a>      <span class="cf">break</span></span>
+<span id="cb29-58"><a href="user-follows.html#cb29-58" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb29-59"><a href="user-follows.html#cb29-59" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb29-60"><a href="user-follows.html#cb29-60" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-61"><a href="user-follows.html#cb29-61" aria-hidden="true" tabindex="-1"></a>    counter <span class="ot">&lt;-</span> </span>
+<span id="cb29-62"><a href="user-follows.html#cb29-62" aria-hidden="true" tabindex="-1"></a>      counter <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb29-63"><a href="user-follows.html#cb29-63" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-64"><a href="user-follows.html#cb29-64" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb29-65"><a href="user-follows.html#cb29-65" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb29-66"><a href="user-follows.html#cb29-66" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 
 </div>
             </section>

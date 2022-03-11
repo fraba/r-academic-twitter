@@ -4,7 +4,7 @@
 
 ```{r echo = F, results = 'asis'}
 
-printProgressBar(.95)
+printProgressBar(.9)
 
 ```
 
@@ -172,3 +172,23 @@ print(obj.r)
 ```
 
 And this is information on the number of tweets posted by @TwitterDev in the days before our request. 
+
+## Twitter API v1.1 and Twitter API v2
+
+Currently both the v1.1 and v2 version of the Twitter API are online and accepting requests. Still, not all endpoints available for the v1.1 are also already implemented in the v2. So we will need to use both endpoints. The main issue with that is that how API errors are returned in a different format
+
+### API v1.1 errrors 
+
+While using the API v1.1., you should expect to deal with such structure
+
+```{r eval = F}
+
+str(obj.r)
+## List of 1
+##  $ errors:'data.frame':	1 obs. of  2 variables:
+##   ..$ message: chr "Rate limit exceeded"
+##   ..$ code   : int 88
+
+```
+
+
