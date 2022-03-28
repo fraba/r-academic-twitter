@@ -17,10 +17,22 @@ The default format for data loads from the Twitter API is JSON. A JSON (JavaScri
 
 ### Read your JSON files: Tweets
 
-```{r eval = F}
+Let's define the name of the directory where we want to receive our JSON files from the Twitter API.
+
+```{r}
 
 json_data_dir <- 
   "json_data"
+
+```
+
+The following code will the parse through the `json_data_dir`, read in each JSON file and try to import tweets metadata into the data.frame `tweet_data.df`. Importantly, 
+
+* this code does not access the API but instead relies on data previously downloaded;
+
+* this code will only work with [tweet objects](https://developer.twitter.com/en/docs/twitter-api/v1/data-dictionary/object-model/tweet). You need a different code to import users or lists, for example.
+
+```{r eval = F}
 
 if(!dir.exists(json_data_dir)) {
   dir.create(json_data_dir)

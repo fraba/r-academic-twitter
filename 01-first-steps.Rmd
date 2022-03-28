@@ -8,9 +8,6 @@ printProgressBar(.9)
 
 ```
 
-
-
-
 ## Packages 
 
 The R code relies on generalist packages to access the API and manipulate the response.
@@ -20,7 +17,6 @@ The R code relies on generalist packages to access the API and manipulate the re
 library("httr")
 library("dplyr")
 library("jsonlite")
-
 
 ```
 
@@ -171,24 +167,117 @@ print(obj.r)
 
 ```
 
-And this is information on the number of tweets posted by @TwitterDev in the days before our request. 
+And this is information on the number of tweets posted by [\@TwitterDev](https://twitter.com/TwitterDev) in the days before our request. 
 
 ## Twitter API v1.1 and Twitter API v2
 
-Currently both the v1.1 and v2 version of the Twitter API are online and accepting requests. Still, not all endpoints available for the v1.1 are also already implemented in the v2. So we will need to use both endpoints. The main issue with that is that how API errors are returned in a different format
+Currently both the v1.1 and v2 version of the Twitter API are online and accepting requests. Still, not all endpoints available for the v1.1 are also already implemented in the v2. So we will need to use both endpoints. The main issue with that is that how API errors are returned in two different formats. The best way to see how errors are returned is... to trigger so error!
 
 ### API v1.1 errrors 
 
-While using the API v1.1., you should expect to deal with such structure
+Let's get an API error first by requesting `trends` for a `place` that doesn't exist.
 
-```{r eval = F}
+```{r}
 
-str(obj.r)
-## List of 1
-##  $ errors:'data.frame':	1 obs. of  2 variables:
-##   ..$ message: chr "Rate limit exceeded"
-##   ..$ code   : int 88
+url <- 
+  "https://api.twitter.com/1.1/trends/place.json"
+
+params <- 
+  list(id = "THIS_ID_DOESNT_EXIST")
+
+res <- 
+  httr::GET(url,
+            httr::add_headers(.headers = headers),
+            query = params)
+
+obj.json <- 
+  httr::content(res, as = "text")
+
+obj.r <- 
+  jsonlite::fromJSON(obj.json)
 
 ```
 
+
+While using the API v1.1., you should expect to deal with such structure when you hit an error
+
+```{r, results = 'show'}
+
+print(str(obj.r))
+
+```
+
+
+`obj.r` is list containing a single data.frame in a list's item named `errors`. To check if the result contains an error we can do `"errors" %in% names(obj.r)`
+
+
+which will return `TRUE` if we hit an API v1.1 error and `FALSE` if the API returned the information we requested. Let's try it out:
+
+```{r, results = 'show'}
+
+"errors" %in% names(obj.r)
+
+```
+
+but 
+
+```{r, results = 'show'}
+
+params <- 
+  list(id = "1") # This ID instead exists
+
+res <- 
+  httr::GET(url,
+            httr::add_headers(.headers = headers),
+            query = params)
+
+obj.json <- 
+  httr::content(res, as = "text")
+
+obj.r <- 
+  jsonlite::fromJSON(obj.json)
+
+"errors" %in% names(obj.r)
+
+```
+
+### API v2 errrors 
+
+We can then trigger an error from the v2 API with the following code. The structure of the response object is going to be different.  
+
+```{r}
+
+url <- 
+  "https://api.twitter.com/2/tweets/counts/recent"
+
+params <- 
+  list(squery = "The parameter's name is mispelled") 
+
+res <- 
+  httr::GET(url,
+            httr::add_headers(.headers = headers),
+            query = params)
+
+obj.json <- 
+  httr::content(res, as = "text")
+
+obj.r <- 
+  jsonlite::fromJSON(obj.json)
+
+```
+
+
+```{r results = 'show'}
+
+print(str(obj.r))
+
+```
+
+but likely we can still check if our response generated an error with 
+
+```{r results = 'show'}
+
+"errors" %in% names(obj.r)
+
+```
 

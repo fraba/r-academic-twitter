@@ -24,7 +24,7 @@
 <meta name="author" content="Francesco Bailo" />
 
 
-<meta name="date" content="2022-03-11" />
+<meta name="date" content="2022-03-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -179,6 +179,7 @@ div.csl-indent {
 <li class="chapter" data-level="2.4" data-path="first-steps.html"><a href="first-steps.html#twitter-api-v1.1-and-twitter-api-v2"><i class="fa fa-check"></i><b>2.4</b> Twitter API v1.1 and Twitter API v2<span></span></a>
 <ul>
 <li class="chapter" data-level="2.4.1" data-path="first-steps.html"><a href="first-steps.html#api-v1.1-errrors"><i class="fa fa-check"></i><b>2.4.1</b> API v1.1 errrors<span></span></a></li>
+<li class="chapter" data-level="2.4.2" data-path="first-steps.html"><a href="first-steps.html#api-v2-errrors"><i class="fa fa-check"></i><b>2.4.2</b> API v2 errrors<span></span></a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="data-management.html"><a href="data-management.html"><i class="fa fa-check"></i><b>3</b> Data management<span></span></a>
@@ -279,12 +280,10 @@ div.csl-indent {
 <p>By printing <code>res</code> we see details about the HTTP response (but not yet the API response or the content returned from the API).</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="first-steps.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(res)</span></code></pre></div>
 <pre><code>## Response [https://api.twitter.com/2/tweets/counts/recent?query=from%3ATwitterDev&amp;granularity=day]
-##   Date: 2022-03-10 22:24
-##   Status: 401
-##   Content-Type: application/problem+json
-##   Size: 99 B
-## &lt;BINARY BODY&gt;</code></pre>
-<pre><code>## NULL</code></pre>
+##   Date: 2022-03-28 23:40
+##   Status: 200
+##   Content-Type: application/json; charset=utf-8
+##   Size: 729 B</code></pre>
 <p>If our request was authorised we should get</p>
 <blockquote>
 <p>Status: 200</p>
@@ -294,45 +293,166 @@ div.csl-indent {
 <p>Status: 401</p>
 </blockquote>
 <p>Assuming, that we got an OK from the HTTP layer, then we can access the content we receive as a response from the API layer. We access it with the function <code>httr::content()</code>.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="first-steps.html#cb11-1" aria-hidden="true" tabindex="-1"></a>obj.json <span class="ot">&lt;-</span> </span>
-<span id="cb11-2"><a href="first-steps.html#cb11-2" aria-hidden="true" tabindex="-1"></a>  httr<span class="sc">::</span><span class="fu">content</span>(res, <span class="at">as =</span> <span class="st">&quot;text&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="first-steps.html#cb10-1" aria-hidden="true" tabindex="-1"></a>obj.json <span class="ot">&lt;-</span> </span>
+<span id="cb10-2"><a href="first-steps.html#cb10-2" aria-hidden="true" tabindex="-1"></a>  httr<span class="sc">::</span><span class="fu">content</span>(res, <span class="at">as =</span> <span class="st">&quot;text&quot;</span>)</span></code></pre></div>
 <p>Now by default the Twitter API responses are in <a href="https://en.wikipedia.org/wiki/JSON">JSON format</a>, which looks like this:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="first-steps.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(jsonlite<span class="sc">::</span><span class="fu">prettify</span>(obj.json, <span class="at">indent =</span> <span class="dv">4</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="first-steps.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(jsonlite<span class="sc">::</span><span class="fu">prettify</span>(obj.json, <span class="at">indent =</span> <span class="dv">4</span>))</span></code></pre></div>
 <pre><code>## {
-##     &quot;title&quot;: &quot;Unauthorized&quot;,
-##     &quot;type&quot;: &quot;about:blank&quot;,
-##     &quot;status&quot;: 401,
-##     &quot;detail&quot;: &quot;Unauthorized&quot;
+##     &quot;data&quot;: [
+##         {
+##             &quot;end&quot;: &quot;2022-03-22T00:00:00.000Z&quot;,
+##             &quot;start&quot;: &quot;2022-03-21T23:40:12.000Z&quot;,
+##             &quot;tweet_count&quot;: 0
+##         },
+##         {
+##             &quot;end&quot;: &quot;2022-03-23T00:00:00.000Z&quot;,
+##             &quot;start&quot;: &quot;2022-03-22T00:00:00.000Z&quot;,
+##             &quot;tweet_count&quot;: 0
+##         },
+##         {
+##             &quot;end&quot;: &quot;2022-03-24T00:00:00.000Z&quot;,
+##             &quot;start&quot;: &quot;2022-03-23T00:00:00.000Z&quot;,
+##             &quot;tweet_count&quot;: 2
+##         },
+##         {
+##             &quot;end&quot;: &quot;2022-03-25T00:00:00.000Z&quot;,
+##             &quot;start&quot;: &quot;2022-03-24T00:00:00.000Z&quot;,
+##             &quot;tweet_count&quot;: 1
+##         },
+##         {
+##             &quot;end&quot;: &quot;2022-03-26T00:00:00.000Z&quot;,
+##             &quot;start&quot;: &quot;2022-03-25T00:00:00.000Z&quot;,
+##             &quot;tweet_count&quot;: 0
+##         },
+##         {
+##             &quot;end&quot;: &quot;2022-03-27T00:00:00.000Z&quot;,
+##             &quot;start&quot;: &quot;2022-03-26T00:00:00.000Z&quot;,
+##             &quot;tweet_count&quot;: 0
+##         },
+##         {
+##             &quot;end&quot;: &quot;2022-03-28T00:00:00.000Z&quot;,
+##             &quot;start&quot;: &quot;2022-03-27T00:00:00.000Z&quot;,
+##             &quot;tweet_count&quot;: 0
+##         },
+##         {
+##             &quot;end&quot;: &quot;2022-03-28T23:40:12.000Z&quot;,
+##             &quot;start&quot;: &quot;2022-03-28T00:00:00.000Z&quot;,
+##             &quot;tweet_count&quot;: 1
+##         }
+##     ],
+##     &quot;meta&quot;: {
+##         &quot;total_tweet_count&quot;: 4
+##     }
 ## }
 ## </code></pre>
 <p>We can use the jsonlite package to translate the JSON-formatted string into an R object with</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="first-steps.html#cb14-1" aria-hidden="true" tabindex="-1"></a>obj.r <span class="ot">&lt;-</span> </span>
-<span id="cb14-2"><a href="first-steps.html#cb14-2" aria-hidden="true" tabindex="-1"></a>  jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>(obj.json)</span></code></pre></div>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="first-steps.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(obj.r)</span></code></pre></div>
-<pre><code>## $title
-## [1] &quot;Unauthorized&quot;
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="first-steps.html#cb13-1" aria-hidden="true" tabindex="-1"></a>obj.r <span class="ot">&lt;-</span> </span>
+<span id="cb13-2"><a href="first-steps.html#cb13-2" aria-hidden="true" tabindex="-1"></a>  jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>(obj.json)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="first-steps.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(obj.r)</span></code></pre></div>
+<pre><code>## $data
+##                        end                    start tweet_count
+## 1 2022-03-22T00:00:00.000Z 2022-03-21T23:40:12.000Z           0
+## 2 2022-03-23T00:00:00.000Z 2022-03-22T00:00:00.000Z           0
+## 3 2022-03-24T00:00:00.000Z 2022-03-23T00:00:00.000Z           2
+## 4 2022-03-25T00:00:00.000Z 2022-03-24T00:00:00.000Z           1
+## 5 2022-03-26T00:00:00.000Z 2022-03-25T00:00:00.000Z           0
+## 6 2022-03-27T00:00:00.000Z 2022-03-26T00:00:00.000Z           0
+## 7 2022-03-28T00:00:00.000Z 2022-03-27T00:00:00.000Z           0
+## 8 2022-03-28T23:40:12.000Z 2022-03-28T00:00:00.000Z           1
 ## 
-## $type
-## [1] &quot;about:blank&quot;
-## 
-## $status
-## [1] 401
-## 
-## $detail
-## [1] &quot;Unauthorized&quot;</code></pre>
-<p>And this is information on the number of tweets posted by <span class="citation">(<a href="#ref-TwitterDev" role="doc-biblioref"><strong>TwitterDev?</strong></a>)</span> in the days before our request.</p>
+## $meta
+## $meta$total_tweet_count
+## [1] 4</code></pre>
+<p>And this is information on the number of tweets posted by <a href="https://twitter.com/TwitterDev">@TwitterDev</a> in the days before our request.</p>
 </div>
 <div id="twitter-api-v1.1-and-twitter-api-v2" class="section level2 hasAnchor" number="2.4">
 <h2><span class="header-section-number">2.4</span> Twitter API v1.1 and Twitter API v2<a href="first-steps.html#twitter-api-v1.1-and-twitter-api-v2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Currently both the v1.1 and v2 version of the Twitter API are online and accepting requests. Still, not all endpoints available for the v1.1 are also already implemented in the v2. So we will need to use both endpoints. The main issue with that is that how API errors are returned in a different format</p>
+<p>Currently both the v1.1 and v2 version of the Twitter API are online and accepting requests. Still, not all endpoints available for the v1.1 are also already implemented in the v2. So we will need to use both endpoints. The main issue with that is that how API errors are returned in two different formats. The best way to see how errors are returned is… to trigger so error!</p>
 <div id="api-v1.1-errrors" class="section level3 hasAnchor" number="2.4.1">
 <h3><span class="header-section-number">2.4.1</span> API v1.1 errrors<a href="first-steps.html#api-v1.1-errrors" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>While using the API v1.1., you should expect to deal with such structure</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="first-steps.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(obj.r)</span>
-<span id="cb17-2"><a href="first-steps.html#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="do">## List of 1</span></span>
-<span id="cb17-3"><a href="first-steps.html#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ errors:&#39;data.frame&#39;:  1 obs. of  2 variables:</span></span>
-<span id="cb17-4"><a href="first-steps.html#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="do">##   ..$ message: chr &quot;Rate limit exceeded&quot;</span></span>
-<span id="cb17-5"><a href="first-steps.html#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="do">##   ..$ code   : int 88</span></span></code></pre></div>
+<p>Let’s get an API error first by requesting <code>trends</code> for a <code>place</code> that doesn’t exist.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="first-steps.html#cb16-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> </span>
+<span id="cb16-2"><a href="first-steps.html#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;https://api.twitter.com/1.1/trends/place.json&quot;</span></span>
+<span id="cb16-3"><a href="first-steps.html#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="first-steps.html#cb16-4" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> </span>
+<span id="cb16-5"><a href="first-steps.html#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">id =</span> <span class="st">&quot;THIS_ID_DOESNT_EXIST&quot;</span>)</span>
+<span id="cb16-6"><a href="first-steps.html#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="first-steps.html#cb16-7" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> </span>
+<span id="cb16-8"><a href="first-steps.html#cb16-8" aria-hidden="true" tabindex="-1"></a>  httr<span class="sc">::</span><span class="fu">GET</span>(url,</span>
+<span id="cb16-9"><a href="first-steps.html#cb16-9" aria-hidden="true" tabindex="-1"></a>            httr<span class="sc">::</span><span class="fu">add_headers</span>(<span class="at">.headers =</span> headers),</span>
+<span id="cb16-10"><a href="first-steps.html#cb16-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">query =</span> params)</span>
+<span id="cb16-11"><a href="first-steps.html#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="first-steps.html#cb16-12" aria-hidden="true" tabindex="-1"></a>obj.json <span class="ot">&lt;-</span> </span>
+<span id="cb16-13"><a href="first-steps.html#cb16-13" aria-hidden="true" tabindex="-1"></a>  httr<span class="sc">::</span><span class="fu">content</span>(res, <span class="at">as =</span> <span class="st">&quot;text&quot;</span>)</span>
+<span id="cb16-14"><a href="first-steps.html#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="first-steps.html#cb16-15" aria-hidden="true" tabindex="-1"></a>obj.r <span class="ot">&lt;-</span> </span>
+<span id="cb16-16"><a href="first-steps.html#cb16-16" aria-hidden="true" tabindex="-1"></a>  jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>(obj.json)</span></code></pre></div>
+<p>While using the API v1.1., you should expect to deal with such structure when you hit an error</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="first-steps.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">str</span>(obj.r))</span></code></pre></div>
+<pre><code>## List of 1
+##  $ errors:&#39;data.frame&#39;:  1 obs. of  2 variables:
+##   ..$ code   : int 34
+##   ..$ message: chr &quot;Sorry, that page does not exist.&quot;
+## NULL</code></pre>
+<p><code>obj.r</code> is list containing a single data.frame in a list’s item named <code>errors</code>. To check if the result contains an error we can do <code>"errors" %in% names(obj.r)</code></p>
+<p>which will return <code>TRUE</code> if we hit an API v1.1 error and <code>FALSE</code> if the API returned the information we requested. Let’s try it out:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="first-steps.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;errors&quot;</span> <span class="sc">%in%</span> <span class="fu">names</span>(obj.r)</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>but</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="first-steps.html#cb21-1" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> </span>
+<span id="cb21-2"><a href="first-steps.html#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">id =</span> <span class="st">&quot;1&quot;</span>) <span class="co"># This ID instead exists</span></span>
+<span id="cb21-3"><a href="first-steps.html#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="first-steps.html#cb21-4" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> </span>
+<span id="cb21-5"><a href="first-steps.html#cb21-5" aria-hidden="true" tabindex="-1"></a>  httr<span class="sc">::</span><span class="fu">GET</span>(url,</span>
+<span id="cb21-6"><a href="first-steps.html#cb21-6" aria-hidden="true" tabindex="-1"></a>            httr<span class="sc">::</span><span class="fu">add_headers</span>(<span class="at">.headers =</span> headers),</span>
+<span id="cb21-7"><a href="first-steps.html#cb21-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">query =</span> params)</span>
+<span id="cb21-8"><a href="first-steps.html#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="first-steps.html#cb21-9" aria-hidden="true" tabindex="-1"></a>obj.json <span class="ot">&lt;-</span> </span>
+<span id="cb21-10"><a href="first-steps.html#cb21-10" aria-hidden="true" tabindex="-1"></a>  httr<span class="sc">::</span><span class="fu">content</span>(res, <span class="at">as =</span> <span class="st">&quot;text&quot;</span>)</span>
+<span id="cb21-11"><a href="first-steps.html#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-12"><a href="first-steps.html#cb21-12" aria-hidden="true" tabindex="-1"></a>obj.r <span class="ot">&lt;-</span> </span>
+<span id="cb21-13"><a href="first-steps.html#cb21-13" aria-hidden="true" tabindex="-1"></a>  jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>(obj.json)</span>
+<span id="cb21-14"><a href="first-steps.html#cb21-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-15"><a href="first-steps.html#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;errors&quot;</span> <span class="sc">%in%</span> <span class="fu">names</span>(obj.r)</span></code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+</div>
+<div id="api-v2-errrors" class="section level3 hasAnchor" number="2.4.2">
+<h3><span class="header-section-number">2.4.2</span> API v2 errrors<a href="first-steps.html#api-v2-errrors" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We can then trigger an error from the v2 API with the following code. The structure of the response object is going to be different.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="first-steps.html#cb23-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> </span>
+<span id="cb23-2"><a href="first-steps.html#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;https://api.twitter.com/2/tweets/counts/recent&quot;</span></span>
+<span id="cb23-3"><a href="first-steps.html#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="first-steps.html#cb23-4" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> </span>
+<span id="cb23-5"><a href="first-steps.html#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">squery =</span> <span class="st">&quot;The parameter&#39;s name is mispelled&quot;</span>) </span>
+<span id="cb23-6"><a href="first-steps.html#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="first-steps.html#cb23-7" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> </span>
+<span id="cb23-8"><a href="first-steps.html#cb23-8" aria-hidden="true" tabindex="-1"></a>  httr<span class="sc">::</span><span class="fu">GET</span>(url,</span>
+<span id="cb23-9"><a href="first-steps.html#cb23-9" aria-hidden="true" tabindex="-1"></a>            httr<span class="sc">::</span><span class="fu">add_headers</span>(<span class="at">.headers =</span> headers),</span>
+<span id="cb23-10"><a href="first-steps.html#cb23-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">query =</span> params)</span>
+<span id="cb23-11"><a href="first-steps.html#cb23-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-12"><a href="first-steps.html#cb23-12" aria-hidden="true" tabindex="-1"></a>obj.json <span class="ot">&lt;-</span> </span>
+<span id="cb23-13"><a href="first-steps.html#cb23-13" aria-hidden="true" tabindex="-1"></a>  httr<span class="sc">::</span><span class="fu">content</span>(res, <span class="at">as =</span> <span class="st">&quot;text&quot;</span>)</span>
+<span id="cb23-14"><a href="first-steps.html#cb23-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-15"><a href="first-steps.html#cb23-15" aria-hidden="true" tabindex="-1"></a>obj.r <span class="ot">&lt;-</span> </span>
+<span id="cb23-16"><a href="first-steps.html#cb23-16" aria-hidden="true" tabindex="-1"></a>  jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>(obj.json)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="first-steps.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">str</span>(obj.r))</span></code></pre></div>
+<pre><code>## List of 4
+##  $ errors:&#39;data.frame&#39;:  2 obs. of  2 variables:
+##   ..$ parameters:&#39;data.frame&#39;:   2 obs. of  2 variables:
+##   .. ..$ query :List of 2
+##   .. .. ..$ : list()
+##   .. .. ..$ : NULL
+##   .. ..$ squery:List of 2
+##   .. .. ..$ : NULL
+##   .. .. ..$ : chr &quot;The parameter&#39;s name is mispelled&quot;
+##   ..$ message   : chr [1:2] &quot;The `query` query parameter can not be empty&quot; &quot;The query parameter [squery] is not one of [query,start_time,end_time,since_id,until_id,next_token,pagination_t&quot;| __truncated__
+##  $ title : chr &quot;Invalid Request&quot;
+##  $ detail: chr &quot;One or more parameters to your request was invalid.&quot;
+##  $ type  : chr &quot;https://api.twitter.com/2/problems/invalid-request&quot;
+## NULL</code></pre>
+<p>but likely we can still check if our response generated an error with</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="first-steps.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;errors&quot;</span> <span class="sc">%in%</span> <span class="fu">names</span>(obj.r)</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
 
 </div>
 </div>

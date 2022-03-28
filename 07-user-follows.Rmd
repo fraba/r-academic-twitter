@@ -86,7 +86,7 @@ if(!dir.exists(json_data_dir)) {
 
 We are now ready to request a paginate the results (in case we our entry point user follows more than 5,000 users).
 
-```{r}
+```{r eval = F}
 
 headers <- 
   c(`Authorization` = sprintf('Bearer %s', 
@@ -99,7 +99,7 @@ res <-
 
 ```
 
-```{r}
+```{r eval = F}
 
 obj.r <- 
   httr::content(res, as = "text") %>%

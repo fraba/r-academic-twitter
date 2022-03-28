@@ -24,7 +24,7 @@
 <meta name="author" content="Francesco Bailo" />
 
 
-<meta name="date" content="2022-03-11" />
+<meta name="date" content="2022-03-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -179,6 +179,7 @@ div.csl-indent {
 <li class="chapter" data-level="2.4" data-path="first-steps.html"><a href="first-steps.html#twitter-api-v1.1-and-twitter-api-v2"><i class="fa fa-check"></i><b>2.4</b> Twitter API v1.1 and Twitter API v2<span></span></a>
 <ul>
 <li class="chapter" data-level="2.4.1" data-path="first-steps.html"><a href="first-steps.html#api-v1.1-errrors"><i class="fa fa-check"></i><b>2.4.1</b> API v1.1 errrors<span></span></a></li>
+<li class="chapter" data-level="2.4.2" data-path="first-steps.html"><a href="first-steps.html#api-v2-errrors"><i class="fa fa-check"></i><b>2.4.2</b> API v2 errrors<span></span></a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="data-management.html"><a href="data-management.html"><i class="fa fa-check"></i><b>3</b> Data management<span></span></a>
@@ -227,107 +228,107 @@ div.csl-indent {
 <p><strong>Chapter progress bar</strong></p>
 <p>██████░░░░░░░░░░░░░░░░░░░░░░░░ 20%</p>
 <p>Let’s first specify where we plan to store our json data. Notably, we also take care of programmatically create the directory if this doesn’t exist (the <code>!</code> in front of <code>dir.exists</code> is a logical negation (i.e. <code>NOT</code>)).</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="search-tweets.html#cb19-1" aria-hidden="true" tabindex="-1"></a>json_data_dir <span class="ot">&lt;-</span> </span>
-<span id="cb19-2"><a href="search-tweets.html#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;json_data&quot;</span></span>
-<span id="cb19-3"><a href="search-tweets.html#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="search-tweets.html#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">dir.exists</span>(json_data_dir)) {</span>
-<span id="cb19-5"><a href="search-tweets.html#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dir.create</span>(json_data_dir)</span>
-<span id="cb19-6"><a href="search-tweets.html#cb19-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="search-tweets.html#cb30-1" aria-hidden="true" tabindex="-1"></a>json_data_dir <span class="ot">&lt;-</span> </span>
+<span id="cb30-2"><a href="search-tweets.html#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;json_data&quot;</span></span>
+<span id="cb30-3"><a href="search-tweets.html#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="search-tweets.html#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">dir.exists</span>(json_data_dir)) {</span>
+<span id="cb30-5"><a href="search-tweets.html#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dir.create</span>(json_data_dir)</span>
+<span id="cb30-6"><a href="search-tweets.html#cb30-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <div id="tweets-from-a-given-account" class="section level2 hasAnchor" number="4.1">
 <h2><span class="header-section-number">4.1</span> Tweets from a given account<a href="search-tweets.html#tweets-from-a-given-account" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="search-tweets.html#cb20-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> </span>
-<span id="cb20-2"><a href="search-tweets.html#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;https://api.twitter.com/2/tweets/search/all&quot;</span></span>
-<span id="cb20-3"><a href="search-tweets.html#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-4"><a href="search-tweets.html#cb20-4" aria-hidden="true" tabindex="-1"></a>headers <span class="ot">&lt;-</span> </span>
-<span id="cb20-5"><a href="search-tweets.html#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">`</span><span class="at">Authorization</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sprintf</span>(<span class="st">&#39;Bearer %s&#39;</span>, </span>
-<span id="cb20-6"><a href="search-tweets.html#cb20-6" aria-hidden="true" tabindex="-1"></a>                              <span class="fu">Sys.getenv</span>(<span class="st">&quot;BEARER_TOKEN&quot;</span>)))</span>
-<span id="cb20-7"><a href="search-tweets.html#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-8"><a href="search-tweets.html#cb20-8" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> </span>
-<span id="cb20-9"><a href="search-tweets.html#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">query =</span> <span class="st">&quot;from:matteosalvinimi&quot;</span>,</span>
-<span id="cb20-10"><a href="search-tweets.html#cb20-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">start_time =</span> <span class="st">&quot;2022-03-01T00:00:00Z&quot;</span>,</span>
-<span id="cb20-11"><a href="search-tweets.html#cb20-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">tweet.fields =</span> <span class="st">&quot;attachments,author_id,context_annotations,conversation_id,created_at,entities,geo,id,in_reply_to_user_id,lang,public_metrics,possibly_sensitive,referenced_tweets,reply_settings,source,text,withheld&quot;</span>,</span>
-<span id="cb20-12"><a href="search-tweets.html#cb20-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">expansions =</span> <span class="st">&quot;attachments.poll_ids,attachments.media_keys,author_id,entities.mentions.username,geo.place_id,in_reply_to_user_id,referenced_tweets.id,referenced_tweets.id.author_id&quot;</span>,</span>
-<span id="cb20-13"><a href="search-tweets.html#cb20-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">user.fields =</span> <span class="st">&quot;created_at,description,entities,id,location,name,pinned_tweet_id,profile_image_url,protected,public_metrics,url,username,verified,withheld&quot;</span>, </span>
-<span id="cb20-14"><a href="search-tweets.html#cb20-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">poll.fields =</span> <span class="st">&quot;duration_minutes,end_datetime,id,options,voting_status&quot;</span>,</span>
-<span id="cb20-15"><a href="search-tweets.html#cb20-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">place.fields =</span> <span class="st">&quot;contained_within,country,country_code,full_name,geo,id,name,place_type&quot;</span>,</span>
-<span id="cb20-16"><a href="search-tweets.html#cb20-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">media.fields =</span> <span class="st">&quot;duration_ms,height,media_key,preview_image_url,type,url,width,public_metrics,alt_text&quot;</span>,</span>
-<span id="cb20-17"><a href="search-tweets.html#cb20-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">max_results =</span> <span class="dv">100</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="search-tweets.html#cb31-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> </span>
+<span id="cb31-2"><a href="search-tweets.html#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;https://api.twitter.com/2/tweets/search/all&quot;</span></span>
+<span id="cb31-3"><a href="search-tweets.html#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="search-tweets.html#cb31-4" aria-hidden="true" tabindex="-1"></a>headers <span class="ot">&lt;-</span> </span>
+<span id="cb31-5"><a href="search-tweets.html#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">`</span><span class="at">Authorization</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sprintf</span>(<span class="st">&#39;Bearer %s&#39;</span>, </span>
+<span id="cb31-6"><a href="search-tweets.html#cb31-6" aria-hidden="true" tabindex="-1"></a>                              <span class="fu">Sys.getenv</span>(<span class="st">&quot;BEARER_TOKEN&quot;</span>)))</span>
+<span id="cb31-7"><a href="search-tweets.html#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-8"><a href="search-tweets.html#cb31-8" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> </span>
+<span id="cb31-9"><a href="search-tweets.html#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">query =</span> <span class="st">&quot;from:matteosalvinimi&quot;</span>,</span>
+<span id="cb31-10"><a href="search-tweets.html#cb31-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">start_time =</span> <span class="st">&quot;2022-03-01T00:00:00Z&quot;</span>,</span>
+<span id="cb31-11"><a href="search-tweets.html#cb31-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">tweet.fields =</span> <span class="st">&quot;attachments,author_id,context_annotations,conversation_id,created_at,entities,geo,id,in_reply_to_user_id,lang,public_metrics,possibly_sensitive,referenced_tweets,reply_settings,source,text,withheld&quot;</span>,</span>
+<span id="cb31-12"><a href="search-tweets.html#cb31-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">expansions =</span> <span class="st">&quot;attachments.poll_ids,attachments.media_keys,author_id,entities.mentions.username,geo.place_id,in_reply_to_user_id,referenced_tweets.id,referenced_tweets.id.author_id&quot;</span>,</span>
+<span id="cb31-13"><a href="search-tweets.html#cb31-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">user.fields =</span> <span class="st">&quot;created_at,description,entities,id,location,name,pinned_tweet_id,profile_image_url,protected,public_metrics,url,username,verified,withheld&quot;</span>, </span>
+<span id="cb31-14"><a href="search-tweets.html#cb31-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">poll.fields =</span> <span class="st">&quot;duration_minutes,end_datetime,id,options,voting_status&quot;</span>,</span>
+<span id="cb31-15"><a href="search-tweets.html#cb31-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">place.fields =</span> <span class="st">&quot;contained_within,country,country_code,full_name,geo,id,name,place_type&quot;</span>,</span>
+<span id="cb31-16"><a href="search-tweets.html#cb31-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">media.fields =</span> <span class="st">&quot;duration_ms,height,media_key,preview_image_url,type,url,width,public_metrics,alt_text&quot;</span>,</span>
+<span id="cb31-17"><a href="search-tweets.html#cb31-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">max_results =</span> <span class="dv">100</span>)</span></code></pre></div>
 <p>If we don’t set an <code>end_time</code>, this is going to be default to now -30 seconds.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="search-tweets.html#cb21-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> </span>
-<span id="cb21-2"><a href="search-tweets.html#cb21-2" aria-hidden="true" tabindex="-1"></a>  httr<span class="sc">::</span><span class="fu">GET</span>(url,</span>
-<span id="cb21-3"><a href="search-tweets.html#cb21-3" aria-hidden="true" tabindex="-1"></a>            httr<span class="sc">::</span><span class="fu">add_headers</span>(<span class="at">.headers =</span> headers),</span>
-<span id="cb21-4"><a href="search-tweets.html#cb21-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">query =</span> params)</span></code></pre></div>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="search-tweets.html#cb22-1" aria-hidden="true" tabindex="-1"></a>obj.r <span class="ot">&lt;-</span> </span>
-<span id="cb22-2"><a href="search-tweets.html#cb22-2" aria-hidden="true" tabindex="-1"></a>  httr<span class="sc">::</span><span class="fu">content</span>(res, <span class="at">as =</span> <span class="st">&quot;text&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb22-3"><a href="search-tweets.html#cb22-3" aria-hidden="true" tabindex="-1"></a>  jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>()</span>
-<span id="cb22-4"><a href="search-tweets.html#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="search-tweets.html#cb22-5" aria-hidden="true" tabindex="-1"></a>jsonlite<span class="sc">::</span><span class="fu">write_json</span>(httr<span class="sc">::</span><span class="fu">content</span>(res, <span class="at">as =</span> <span class="st">&quot;parsed&quot;</span>), </span>
-<span id="cb22-6"><a href="search-tweets.html#cb22-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">path =</span> <span class="fu">sprintf</span>(<span class="st">&quot;%s/%s_%s.json&quot;</span>,</span>
-<span id="cb22-7"><a href="search-tweets.html#cb22-7" aria-hidden="true" tabindex="-1"></a>                                    json_data_dir,</span>
-<span id="cb22-8"><a href="search-tweets.html#cb22-8" aria-hidden="true" tabindex="-1"></a>                                    obj.r<span class="sc">$</span>meta<span class="sc">$</span>oldest_id, </span>
-<span id="cb22-9"><a href="search-tweets.html#cb22-9" aria-hidden="true" tabindex="-1"></a>                                    obj.r<span class="sc">$</span>meta<span class="sc">$</span>newest_id))</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="search-tweets.html#cb32-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> </span>
+<span id="cb32-2"><a href="search-tweets.html#cb32-2" aria-hidden="true" tabindex="-1"></a>  httr<span class="sc">::</span><span class="fu">GET</span>(url,</span>
+<span id="cb32-3"><a href="search-tweets.html#cb32-3" aria-hidden="true" tabindex="-1"></a>            httr<span class="sc">::</span><span class="fu">add_headers</span>(<span class="at">.headers =</span> headers),</span>
+<span id="cb32-4"><a href="search-tweets.html#cb32-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">query =</span> params)</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="search-tweets.html#cb33-1" aria-hidden="true" tabindex="-1"></a>obj.r <span class="ot">&lt;-</span> </span>
+<span id="cb33-2"><a href="search-tweets.html#cb33-2" aria-hidden="true" tabindex="-1"></a>  httr<span class="sc">::</span><span class="fu">content</span>(res, <span class="at">as =</span> <span class="st">&quot;text&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb33-3"><a href="search-tweets.html#cb33-3" aria-hidden="true" tabindex="-1"></a>  jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>()</span>
+<span id="cb33-4"><a href="search-tweets.html#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-5"><a href="search-tweets.html#cb33-5" aria-hidden="true" tabindex="-1"></a>jsonlite<span class="sc">::</span><span class="fu">write_json</span>(httr<span class="sc">::</span><span class="fu">content</span>(res, <span class="at">as =</span> <span class="st">&quot;parsed&quot;</span>), </span>
+<span id="cb33-6"><a href="search-tweets.html#cb33-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">path =</span> <span class="fu">sprintf</span>(<span class="st">&quot;%s/%s_%s.json&quot;</span>,</span>
+<span id="cb33-7"><a href="search-tweets.html#cb33-7" aria-hidden="true" tabindex="-1"></a>                                    json_data_dir,</span>
+<span id="cb33-8"><a href="search-tweets.html#cb33-8" aria-hidden="true" tabindex="-1"></a>                                    obj.r<span class="sc">$</span>meta<span class="sc">$</span>oldest_id, </span>
+<span id="cb33-9"><a href="search-tweets.html#cb33-9" aria-hidden="true" tabindex="-1"></a>                                    obj.r<span class="sc">$</span>meta<span class="sc">$</span>newest_id))</span></code></pre></div>
 <p>Do we have additional pages?</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="search-tweets.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(obj.r<span class="sc">$</span>meta<span class="sc">$</span>next_token)) {</span>
-<span id="cb23-2"><a href="search-tweets.html#cb23-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb23-3"><a href="search-tweets.html#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span>(<span class="cn">TRUE</span>) {</span>
-<span id="cb23-4"><a href="search-tweets.html#cb23-4" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb23-5"><a href="search-tweets.html#cb23-5" aria-hidden="true" tabindex="-1"></a>    params[[<span class="st">&#39;pagination_token&#39;</span>]] <span class="ot">&lt;-</span></span>
-<span id="cb23-6"><a href="search-tweets.html#cb23-6" aria-hidden="true" tabindex="-1"></a>      obj.r<span class="sc">$</span>meta<span class="sc">$</span>next_token</span>
-<span id="cb23-7"><a href="search-tweets.html#cb23-7" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb23-8"><a href="search-tweets.html#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="fu">sprintf</span>(<span class="st">&quot;Next token: %s...&quot;</span>, obj.r<span class="sc">$</span>meta<span class="sc">$</span>next_token))</span>
-<span id="cb23-9"><a href="search-tweets.html#cb23-9" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb23-10"><a href="search-tweets.html#cb23-10" aria-hidden="true" tabindex="-1"></a>    res <span class="ot">&lt;-</span> </span>
-<span id="cb23-11"><a href="search-tweets.html#cb23-11" aria-hidden="true" tabindex="-1"></a>      httr<span class="sc">::</span><span class="fu">GET</span>(url,</span>
-<span id="cb23-12"><a href="search-tweets.html#cb23-12" aria-hidden="true" tabindex="-1"></a>                httr<span class="sc">::</span><span class="fu">add_headers</span>(<span class="at">.headers =</span> headers),</span>
-<span id="cb23-13"><a href="search-tweets.html#cb23-13" aria-hidden="true" tabindex="-1"></a>                <span class="at">query =</span> params)</span>
-<span id="cb23-14"><a href="search-tweets.html#cb23-14" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb23-15"><a href="search-tweets.html#cb23-15" aria-hidden="true" tabindex="-1"></a>    obj.r <span class="ot">&lt;-</span> </span>
-<span id="cb23-16"><a href="search-tweets.html#cb23-16" aria-hidden="true" tabindex="-1"></a>      httr<span class="sc">::</span><span class="fu">content</span>(res, <span class="at">as =</span> <span class="st">&quot;text&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb23-17"><a href="search-tweets.html#cb23-17" aria-hidden="true" tabindex="-1"></a>      jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>()</span>
-<span id="cb23-18"><a href="search-tweets.html#cb23-18" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb23-19"><a href="search-tweets.html#cb23-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(obj.r<span class="sc">$</span>status) <span class="sc">&amp;&amp;</span> obj.r<span class="sc">$</span>status <span class="sc">==</span> <span class="dv">429</span>) {</span>
-<span id="cb23-20"><a href="search-tweets.html#cb23-20" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb23-21"><a href="search-tweets.html#cb23-21" aria-hidden="true" tabindex="-1"></a>      <span class="cf">while</span>(<span class="cn">TRUE</span>) {</span>
-<span id="cb23-22"><a href="search-tweets.html#cb23-22" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb23-23"><a href="search-tweets.html#cb23-23" aria-hidden="true" tabindex="-1"></a>        <span class="fu">print</span>(obj.r<span class="sc">$</span>title)</span>
-<span id="cb23-24"><a href="search-tweets.html#cb23-24" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb23-25"><a href="search-tweets.html#cb23-25" aria-hidden="true" tabindex="-1"></a>        <span class="fu">Sys.sleep</span>(<span class="dv">60</span>)</span>
-<span id="cb23-26"><a href="search-tweets.html#cb23-26" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb23-27"><a href="search-tweets.html#cb23-27" aria-hidden="true" tabindex="-1"></a>        res <span class="ot">&lt;-</span> </span>
-<span id="cb23-28"><a href="search-tweets.html#cb23-28" aria-hidden="true" tabindex="-1"></a>          httr<span class="sc">::</span><span class="fu">GET</span>(url,</span>
-<span id="cb23-29"><a href="search-tweets.html#cb23-29" aria-hidden="true" tabindex="-1"></a>                    httr<span class="sc">::</span><span class="fu">add_headers</span>(<span class="at">.headers =</span> headers),</span>
-<span id="cb23-30"><a href="search-tweets.html#cb23-30" aria-hidden="true" tabindex="-1"></a>                    <span class="at">query =</span> params)</span>
-<span id="cb23-31"><a href="search-tweets.html#cb23-31" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb23-32"><a href="search-tweets.html#cb23-32" aria-hidden="true" tabindex="-1"></a>        obj.r <span class="ot">&lt;-</span> </span>
-<span id="cb23-33"><a href="search-tweets.html#cb23-33" aria-hidden="true" tabindex="-1"></a>          httr<span class="sc">::</span><span class="fu">content</span>(res, <span class="at">as =</span> <span class="st">&quot;text&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb23-34"><a href="search-tweets.html#cb23-34" aria-hidden="true" tabindex="-1"></a>          jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>()</span>
-<span id="cb23-35"><a href="search-tweets.html#cb23-35" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb23-36"><a href="search-tweets.html#cb23-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (<span class="fu">is.null</span>(obj.r<span class="sc">$</span>status)) {</span>
-<span id="cb23-37"><a href="search-tweets.html#cb23-37" aria-hidden="true" tabindex="-1"></a>          </span>
-<span id="cb23-38"><a href="search-tweets.html#cb23-38" aria-hidden="true" tabindex="-1"></a>          <span class="cf">break</span></span>
-<span id="cb23-39"><a href="search-tweets.html#cb23-39" aria-hidden="true" tabindex="-1"></a>          </span>
-<span id="cb23-40"><a href="search-tweets.html#cb23-40" aria-hidden="true" tabindex="-1"></a>        } </span>
-<span id="cb23-41"><a href="search-tweets.html#cb23-41" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb23-42"><a href="search-tweets.html#cb23-42" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb23-43"><a href="search-tweets.html#cb23-43" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb23-44"><a href="search-tweets.html#cb23-44" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb23-45"><a href="search-tweets.html#cb23-45" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb23-46"><a href="search-tweets.html#cb23-46" aria-hidden="true" tabindex="-1"></a>    jsonlite<span class="sc">::</span><span class="fu">write_json</span>(httr<span class="sc">::</span><span class="fu">content</span>(res, <span class="at">as =</span> <span class="st">&quot;parsed&quot;</span>), </span>
-<span id="cb23-47"><a href="search-tweets.html#cb23-47" aria-hidden="true" tabindex="-1"></a>                         <span class="at">path =</span> <span class="fu">sprintf</span>(<span class="st">&quot;%s/%s_%s.json&quot;</span>,</span>
-<span id="cb23-48"><a href="search-tweets.html#cb23-48" aria-hidden="true" tabindex="-1"></a>                                        json_data_dir,</span>
-<span id="cb23-49"><a href="search-tweets.html#cb23-49" aria-hidden="true" tabindex="-1"></a>                                        obj.r<span class="sc">$</span>meta<span class="sc">$</span>oldest_id, </span>
-<span id="cb23-50"><a href="search-tweets.html#cb23-50" aria-hidden="true" tabindex="-1"></a>                                        obj.r<span class="sc">$</span>meta<span class="sc">$</span>newest_id))</span>
-<span id="cb23-51"><a href="search-tweets.html#cb23-51" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb23-52"><a href="search-tweets.html#cb23-52" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb23-53"><a href="search-tweets.html#cb23-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">is.null</span>(obj.r<span class="sc">$</span>meta<span class="sc">$</span>next_token)) {</span>
-<span id="cb23-54"><a href="search-tweets.html#cb23-54" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb23-55"><a href="search-tweets.html#cb23-55" aria-hidden="true" tabindex="-1"></a>      <span class="cf">break</span></span>
-<span id="cb23-56"><a href="search-tweets.html#cb23-56" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb23-57"><a href="search-tweets.html#cb23-57" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb23-58"><a href="search-tweets.html#cb23-58" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb23-59"><a href="search-tweets.html#cb23-59" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb23-60"><a href="search-tweets.html#cb23-60" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb23-61"><a href="search-tweets.html#cb23-61" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="search-tweets.html#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(obj.r<span class="sc">$</span>meta<span class="sc">$</span>next_token)) {</span>
+<span id="cb34-2"><a href="search-tweets.html#cb34-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-3"><a href="search-tweets.html#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span>(<span class="cn">TRUE</span>) {</span>
+<span id="cb34-4"><a href="search-tweets.html#cb34-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-5"><a href="search-tweets.html#cb34-5" aria-hidden="true" tabindex="-1"></a>    params[[<span class="st">&#39;pagination_token&#39;</span>]] <span class="ot">&lt;-</span></span>
+<span id="cb34-6"><a href="search-tweets.html#cb34-6" aria-hidden="true" tabindex="-1"></a>      obj.r<span class="sc">$</span>meta<span class="sc">$</span>next_token</span>
+<span id="cb34-7"><a href="search-tweets.html#cb34-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-8"><a href="search-tweets.html#cb34-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="fu">sprintf</span>(<span class="st">&quot;Next token: %s...&quot;</span>, obj.r<span class="sc">$</span>meta<span class="sc">$</span>next_token))</span>
+<span id="cb34-9"><a href="search-tweets.html#cb34-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-10"><a href="search-tweets.html#cb34-10" aria-hidden="true" tabindex="-1"></a>    res <span class="ot">&lt;-</span> </span>
+<span id="cb34-11"><a href="search-tweets.html#cb34-11" aria-hidden="true" tabindex="-1"></a>      httr<span class="sc">::</span><span class="fu">GET</span>(url,</span>
+<span id="cb34-12"><a href="search-tweets.html#cb34-12" aria-hidden="true" tabindex="-1"></a>                httr<span class="sc">::</span><span class="fu">add_headers</span>(<span class="at">.headers =</span> headers),</span>
+<span id="cb34-13"><a href="search-tweets.html#cb34-13" aria-hidden="true" tabindex="-1"></a>                <span class="at">query =</span> params)</span>
+<span id="cb34-14"><a href="search-tweets.html#cb34-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-15"><a href="search-tweets.html#cb34-15" aria-hidden="true" tabindex="-1"></a>    obj.r <span class="ot">&lt;-</span> </span>
+<span id="cb34-16"><a href="search-tweets.html#cb34-16" aria-hidden="true" tabindex="-1"></a>      httr<span class="sc">::</span><span class="fu">content</span>(res, <span class="at">as =</span> <span class="st">&quot;text&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-17"><a href="search-tweets.html#cb34-17" aria-hidden="true" tabindex="-1"></a>      jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>()</span>
+<span id="cb34-18"><a href="search-tweets.html#cb34-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-19"><a href="search-tweets.html#cb34-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(obj.r<span class="sc">$</span>status) <span class="sc">&amp;&amp;</span> obj.r<span class="sc">$</span>status <span class="sc">==</span> <span class="dv">429</span>) {</span>
+<span id="cb34-20"><a href="search-tweets.html#cb34-20" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb34-21"><a href="search-tweets.html#cb34-21" aria-hidden="true" tabindex="-1"></a>      <span class="cf">while</span>(<span class="cn">TRUE</span>) {</span>
+<span id="cb34-22"><a href="search-tweets.html#cb34-22" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb34-23"><a href="search-tweets.html#cb34-23" aria-hidden="true" tabindex="-1"></a>        <span class="fu">print</span>(obj.r<span class="sc">$</span>title)</span>
+<span id="cb34-24"><a href="search-tweets.html#cb34-24" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb34-25"><a href="search-tweets.html#cb34-25" aria-hidden="true" tabindex="-1"></a>        <span class="fu">Sys.sleep</span>(<span class="dv">60</span>)</span>
+<span id="cb34-26"><a href="search-tweets.html#cb34-26" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb34-27"><a href="search-tweets.html#cb34-27" aria-hidden="true" tabindex="-1"></a>        res <span class="ot">&lt;-</span> </span>
+<span id="cb34-28"><a href="search-tweets.html#cb34-28" aria-hidden="true" tabindex="-1"></a>          httr<span class="sc">::</span><span class="fu">GET</span>(url,</span>
+<span id="cb34-29"><a href="search-tweets.html#cb34-29" aria-hidden="true" tabindex="-1"></a>                    httr<span class="sc">::</span><span class="fu">add_headers</span>(<span class="at">.headers =</span> headers),</span>
+<span id="cb34-30"><a href="search-tweets.html#cb34-30" aria-hidden="true" tabindex="-1"></a>                    <span class="at">query =</span> params)</span>
+<span id="cb34-31"><a href="search-tweets.html#cb34-31" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb34-32"><a href="search-tweets.html#cb34-32" aria-hidden="true" tabindex="-1"></a>        obj.r <span class="ot">&lt;-</span> </span>
+<span id="cb34-33"><a href="search-tweets.html#cb34-33" aria-hidden="true" tabindex="-1"></a>          httr<span class="sc">::</span><span class="fu">content</span>(res, <span class="at">as =</span> <span class="st">&quot;text&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-34"><a href="search-tweets.html#cb34-34" aria-hidden="true" tabindex="-1"></a>          jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>()</span>
+<span id="cb34-35"><a href="search-tweets.html#cb34-35" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb34-36"><a href="search-tweets.html#cb34-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (<span class="fu">is.null</span>(obj.r<span class="sc">$</span>status)) {</span>
+<span id="cb34-37"><a href="search-tweets.html#cb34-37" aria-hidden="true" tabindex="-1"></a>          </span>
+<span id="cb34-38"><a href="search-tweets.html#cb34-38" aria-hidden="true" tabindex="-1"></a>          <span class="cf">break</span></span>
+<span id="cb34-39"><a href="search-tweets.html#cb34-39" aria-hidden="true" tabindex="-1"></a>          </span>
+<span id="cb34-40"><a href="search-tweets.html#cb34-40" aria-hidden="true" tabindex="-1"></a>        } </span>
+<span id="cb34-41"><a href="search-tweets.html#cb34-41" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb34-42"><a href="search-tweets.html#cb34-42" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb34-43"><a href="search-tweets.html#cb34-43" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb34-44"><a href="search-tweets.html#cb34-44" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb34-45"><a href="search-tweets.html#cb34-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-46"><a href="search-tweets.html#cb34-46" aria-hidden="true" tabindex="-1"></a>    jsonlite<span class="sc">::</span><span class="fu">write_json</span>(httr<span class="sc">::</span><span class="fu">content</span>(res, <span class="at">as =</span> <span class="st">&quot;parsed&quot;</span>), </span>
+<span id="cb34-47"><a href="search-tweets.html#cb34-47" aria-hidden="true" tabindex="-1"></a>                         <span class="at">path =</span> <span class="fu">sprintf</span>(<span class="st">&quot;%s/%s_%s.json&quot;</span>,</span>
+<span id="cb34-48"><a href="search-tweets.html#cb34-48" aria-hidden="true" tabindex="-1"></a>                                        json_data_dir,</span>
+<span id="cb34-49"><a href="search-tweets.html#cb34-49" aria-hidden="true" tabindex="-1"></a>                                        obj.r<span class="sc">$</span>meta<span class="sc">$</span>oldest_id, </span>
+<span id="cb34-50"><a href="search-tweets.html#cb34-50" aria-hidden="true" tabindex="-1"></a>                                        obj.r<span class="sc">$</span>meta<span class="sc">$</span>newest_id))</span>
+<span id="cb34-51"><a href="search-tweets.html#cb34-51" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-52"><a href="search-tweets.html#cb34-52" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-53"><a href="search-tweets.html#cb34-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">is.null</span>(obj.r<span class="sc">$</span>meta<span class="sc">$</span>next_token)) {</span>
+<span id="cb34-54"><a href="search-tweets.html#cb34-54" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb34-55"><a href="search-tweets.html#cb34-55" aria-hidden="true" tabindex="-1"></a>      <span class="cf">break</span></span>
+<span id="cb34-56"><a href="search-tweets.html#cb34-56" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb34-57"><a href="search-tweets.html#cb34-57" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb34-58"><a href="search-tweets.html#cb34-58" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-59"><a href="search-tweets.html#cb34-59" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb34-60"><a href="search-tweets.html#cb34-60" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-61"><a href="search-tweets.html#cb34-61" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 
 </div>
 </div>

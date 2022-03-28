@@ -24,7 +24,7 @@
 <meta name="author" content="Francesco Bailo" />
 
 
-<meta name="date" content="2022-03-11" />
+<meta name="date" content="2022-03-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -179,6 +179,7 @@ div.csl-indent {
 <li class="chapter" data-level="2.4" data-path="first-steps.html"><a href="first-steps.html#twitter-api-v1.1-and-twitter-api-v2"><i class="fa fa-check"></i><b>2.4</b> Twitter API v1.1 and Twitter API v2<span></span></a>
 <ul>
 <li class="chapter" data-level="2.4.1" data-path="first-steps.html"><a href="first-steps.html#api-v1.1-errrors"><i class="fa fa-check"></i><b>2.4.1</b> API v1.1 errrors<span></span></a></li>
+<li class="chapter" data-level="2.4.2" data-path="first-steps.html"><a href="first-steps.html#api-v2-errrors"><i class="fa fa-check"></i><b>2.4.2</b> API v2 errrors<span></span></a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="data-management.html"><a href="data-management.html"><i class="fa fa-check"></i><b>3</b> Data management<span></span></a>
@@ -225,7 +226,7 @@ div.csl-indent {
 <div id="header">
 <h1 class="title">Twitter API Academic Research access with R</h1>
 <p class="author"><em>Francesco Bailo</em></p>
-<p class="date"><em>2022-03-11</em></p>
+<p class="date"><em>2022-03-29</em></p>
 </div>
 <div id="about" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">Chapter 1</span> About<a href="index.html#about" class="anchor-section" aria-label="Anchor link to header"></a></h1>
@@ -241,8 +242,8 @@ div.csl-indent {
 <div id="twitter-relationships" class="section level3 hasAnchor" number="1.1.1">
 <h3><span class="header-section-number">1.1.1</span> Twitter relationships<a href="index.html#twitter-relationships" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>In collecting Twitter data using the API, there are a number of entry points. Each node in the diagram indicate a possible entry point with arrows indicating the type of API requests necessary to crawl the graph.</p>
-<div id="htmlwidget-c84a93b7387ec68709f3" style="width:672px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-c84a93b7387ec68709f3">{"x":{"diagram":"digraph {\n\ngraph [layout = \"neato\",\n       outputorder = \"edgesfirst\",\n       bgcolor = \"white\"]\n\nnode [fontname = \"Helvetica\",\n      fontsize = \"10\",\n      shape = \"circle\",\n      fixedsize = \"true\",\n      width = \"0.5\",\n      style = \"filled\",\n      fillcolor = \"aliceblue\",\n      color = \"gray70\",\n      fontcolor = \"gray50\"]\n\nedge [fontname = \"Helvetica\",\n     fontsize = \"8\",\n     len = \"1.5\",\n     color = \"gray80\",\n     arrowsize = \"0.5\"]\n\n  \"1\" [label = \"User A\", width = \"0.3\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"2\" [label = \"User B\", width = \"0.3\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"3\" [label = \"Tweet\", width = \"0.3\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"4\" [label = \"List\", width = \"0.3\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"5\" [label = \"query\", width = \"0.3\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n\"1\"->\"2\" [label = \"get friends\"] \n\"2\"->\"1\" [label = \"get followers\"] \n\"5\"->\"3\" [label = \"search tweets\"] \n\"5\"->\"3\" [label = \"stream tweets\"] \n\"3\"->\"1\" [label = \"tweet lookup\"] \n\"2\"->\"3\" [label = \"user timeline\"] \n\"4\"->\"1\" [label = \"list members\"] \n\"2\"->\"4\" [label = \"list membership\"] \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-9cbb9eac22705204bc84" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9cbb9eac22705204bc84">{"x":{"diagram":"digraph {\n\ngraph [layout = \"neato\",\n       outputorder = \"edgesfirst\",\n       bgcolor = \"white\"]\n\nnode [fontname = \"Helvetica\",\n      fontsize = \"10\",\n      shape = \"circle\",\n      fixedsize = \"true\",\n      width = \"0.5\",\n      style = \"filled\",\n      fillcolor = \"aliceblue\",\n      color = \"gray70\",\n      fontcolor = \"gray50\"]\n\nedge [fontname = \"Helvetica\",\n     fontsize = \"8\",\n     len = \"1.5\",\n     color = \"gray80\",\n     arrowsize = \"0.5\"]\n\n  \"1\" [label = \"User A\", width = \"0.3\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"2\" [label = \"User B\", width = \"0.3\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"3\" [label = \"Tweet\", width = \"0.3\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"4\" [label = \"List\", width = \"0.3\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n  \"5\" [label = \"query\", width = \"0.3\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\"] \n\"1\"->\"2\" [label = \"get friends\"] \n\"2\"->\"1\" [label = \"get followers\"] \n\"5\"->\"3\" [label = \"search tweets\"] \n\"5\"->\"3\" [label = \"stream tweets\"] \n\"3\"->\"1\" [label = \"tweet lookup\"] \n\"2\"->\"3\" [label = \"user timeline\"] \n\"4\"->\"1\" [label = \"list members\"] \n\"2\"->\"4\" [label = \"list membership\"] \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 <p>Of course there are many other entry points. A good place to see a complete list is the official <a href="https://developer.twitter.com/en/docs/twitter-api/migrate/twitter-api-endpoint-map">Twitter API endpoint map</a>.</p>
 </div>
 </div>
